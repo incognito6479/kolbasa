@@ -1,0 +1,109 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}counter_party_report_excel
+    <div class="row page-titles mx-0">
+        <div class="col-md-6 p-md-0">
+            <div class="welcome-text">
+                <h4> Акт сверка ({{ counter_party }})</h4>
+            </div>
+        </div>
+        <div class="col-md-6 text-right p-md-0">
+            <div class="welcome-text">
+                <h4>
+                    <form method="get" action="{% url 'counter_party_report_excel' pk %}">
+                        <input type="hidden" name="start_date" value="{{ start_date|default:'' }}">
+                        <input type="hidden" name="end_date" value="{{ end_date|default:'' }}">
+                        <button type="submit" class="btn btn-sm btn-info">
+                            Сохранить как Excel
+                        </button>
+                    </form>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <tr>
+                    <th>Адрес контрагента</th>
+                    <td>{{ counter_party.address }}</td>
+                </tr>
+                <tr>
+                    <th>Регион</th>
+                    <td>{{ counter_party.get_region_display }}</td>
+                </tr>
+                <tr>
+                    <th>Комментарии о контрагента</th>
+                    <td>{{ counter_party.content }}</td>
+                </tr>
+                <tr>
+                    <th>Баланс контрагента</th>
+                    <td>{{ counter_party.balance }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'counter_party_report' counter_party.id %}"
+              method="GET">
+            <div class="row w-100">
+                <div class="col-12 col-md-5">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-5">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-2 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Причина</strong></th>
+                        <th><strong>Тип</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for report in reports %}
+                        <tr>
+                            <td><strong>{{ forloop.counter }}</strong></td>
+                            <td>{{ report.created|date:'d.m.Y H:i' }}</td>
+                            {% if report.type == 'invoice' %}
+                                <td><a href="{% url 'order_detail' report.id %}">{{ report.title }}</a></td>
+                            {% else %}
+                                <td>{{ report.title }}</td>
+                            {% endif %}
+                            <td>{{ report.type_display }}</td>
+                            <td>{{ report.amount }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

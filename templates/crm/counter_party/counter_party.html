@@ -1,0 +1,89 @@
+{% extends 'crm/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <style>
+        .on_hover_tr:hover {
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Список контрагентов</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Добавить новый контрагент</h4>
+                </div>
+                <div class="card-body">
+                    {% include 'crm/layouts/item_create.html' %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Список контрагентов</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-responsive-md">
+                            <thead>
+                            <tr>
+                                <th><strong>#</strong></th>
+                                <th><strong>ФИО контрагента</strong></th>
+                                <th><strong>Номер телефона</strong></th>
+                                <th><strong>Область контрагента</strong></th>
+                                <th><strong>Комментарии для контрагента</strong></th>
+                                <th><strong>Баланс контрагента</strong></th>
+                                <th><strong>Действие</strong></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for counter_party in counter_parties %}
+                                <tr class="on_hover_tr" onclick="location.href=`{% url 'counter_party_report' counter_party.id %}`">
+                                    <td><strong>{{ counter_party.id }}</strong></td>
+                                    <td>{{ counter_party.full_name }}</td>
+                                    <td>{{ counter_party.phone_number }}</td>
+                                    <td>{{ counter_party.get_region_display }}</td>
+                                    <td>{{ counter_party.content }}</td>
+                                    <td>{{ counter_party.balance }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'counter_party_update' counter_party.id %}"
+                                               class="btn btn-primary shadow btn-xs sharp mr-1"><i
+                                                    class="fa fa-pencil"></i></a>
+                                            <form method="POST"
+                                                  action="{% url 'counter_party_delete' counter_party.id %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" value="DELETE">
+                                                <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="9" class="text-center">Пусто</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,169 @@
+{% extends 'crm/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Приход: # {{ income.id }} Дата: {{ income.created.date }}</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0">
+            <div class="">
+                <h4 class="text-black-50">
+                    <strong class="text-black">Контрагент:</strong> <a href="#" style="text-decoration: none">{{ income.counter_party }}</a> | <strong class="text-black">Пользователь:</strong> {{ income.user }}
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row page-titles mx-0">
+        <div class="col-md-6">
+            <div class="">
+                <table border="1" class="table table-responsive-md">
+                    <tr>
+                        <td class="bg-light">Статус</td>
+                        <td>{{ income.get_status_display }}</td>
+                        <td class="bg-light">Сумма</td>
+                        <td>{{ income.total }} сумм</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex">
+                {% if income.status == 1 %}
+                    <form method="POST" action="{% url 'income_action' income.id %}">
+                    {% csrf_token %}
+                        <input type="hidden" name="action" value="change_income_status">
+                        <input type="hidden" name="change_status" value="2">
+                        <button type="submit" class="btn btn-danger">Отменить</button>
+                    </form>
+                    {% elif income.status == 0 %}
+                    <form class="mx-1" method="POST" action="{% url 'income_action' income.id %}">
+                    {% csrf_token %}
+                        <input type="hidden" name="action" value="change_income_status">
+                        <input type="hidden" name="change_status" value="1">
+                        <button type="submit" class="btn btn-success">Принять</button>
+                    </form>
+                    <form method="POST" action="{% url 'income_action' income.id %}">
+                    {% csrf_token %}
+                        <input type="hidden" name="action" value="change_income_status">
+                        <input type="hidden" name="change_status" value="2">
+                        <button type="submit" class="btn btn-danger">Отменить</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Элементы Прихода</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive-md">
+                        <thead>
+                        <tr>
+                            <th><strong>#</strong></th>
+                            <th><strong>Товар</strong></th>
+                            <th><strong>Количество</strong></th>
+                            <th><strong>Цена</strong></th>
+                            <th><strong>Сумма</strong></th>
+                            <th><strong>Действие</strong></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for item in income_items %}
+                            <tr>
+                                <td><strong>{{ item.id }}</strong></td>
+                                <td>{{ item.product }}</td>
+                                <td>{{ item.count }}</td>
+                                <td>{{ item.price }} сумм</td>
+                                <td>{{ item.total }} сумм</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a href="{% url 'income_item_update' item.id income.id %}" class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
+                                        <form method="POST" action="{% url 'income_action' income.id %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="income_item_id" value="{{ item.id }}">
+                                            <input type="hidden" name="action" value="delete_income_item">
+                                            <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">Пусто</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Добавить приход</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'income_action' income.id %}">
+                    {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Категория Товаров</label>
+                                <select class="form-control product_category_select" required>
+                                    <option value="" selected disabled>----</option>
+                                    {% for i in product_categories %}
+                                        <option value="{{ i.id }}">{{ i.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Товары</label>
+                                <select id="product" name="product" class="form-control product_select" required>
+                                    <option value="" selected disabled>----</option>
+                                    {% for i in products %}
+                                        <option class="products product_category_{{ i.category_id }}" value="{{ i.id }}">
+                                            {{ i.title }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        <div class="col-md-3">
+                            <label>Количество</label>
+                            <input name="count" type="number" min="0" class="form-control" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Сумма</label>
+                            <input name="price" type="number" min="0" class="form-control" required>
+                        </div>
+                            <div class="col-md-2 mt-5">
+                                <input type="hidden" name="action" value="add_income_items">
+                                <button type="submit" class="btn btn-primary">Добавить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+    $('.product_category_select').on('change', function(e){
+        let id = this.value
+        $('.dropdown-toggle').click()
+        $('.products').addClass('d-none')
+        $('#product').val('').change()
+        setTimeout(function(){
+            $('.product_category_' + id).removeClass('d-none')
+        }, 500)
+    })
+    </script>
+{% endblock %}

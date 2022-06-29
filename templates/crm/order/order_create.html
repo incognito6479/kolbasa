@@ -1,0 +1,24 @@
+{% extends 'crm/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Заказы</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Добавить новый заказ</h4>
+                </div>
+                <div class="card-body">
+                    {% include 'crm/layouts/item_create.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,421 @@
+{% load static widget_tweaks custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content=""/>
+    <meta name="author" content=""/>
+    <meta name="robots" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="MotaAdmin - Bootstrap Admin Dashboard"/>
+    <meta property="og:title" content="MotaAdmin - Bootstrap Admin Dashboard"/>
+    <meta property="og:description" content="MotaAdmin - Bootstrap Admin Dashboard"/>
+    <meta property="og:image" content="https://motaadmin.dexignlab.com/xhtml/social-image.png"/>
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- PAGE TITLE HERE -->
+    <title>Lesecret CRM</title>
+
+    <!-- FAVICONS ICON -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'crm/images/favicon.png' %}"/>
+
+    <!-- Style css -->
+    <link href="{% static 'crm/vendor/jqvmap/css/jqvmap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'crm/vendor/chartist/css/chartist.min.css' %}">
+    <link href="{% static 'crm/css/style.css' %}" rel="stylesheet">
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+    <link href="{% static 'crm/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+    </script>
+    {% block extra_css %}
+    {% endblock extra_css %}
+</head>
+<body>
+
+<!--*******************
+    Preloader start
+********************-->
+<div id="preloader">
+    <div class="sk-three-bounce">
+        <div class="sk-child sk-bounce1"></div>
+        <div class="sk-child sk-bounce2"></div>
+        <div class="sk-child sk-bounce3"></div>
+    </div>
+</div>
+<!--*******************
+    Preloader end
+********************-->
+
+<!--**********************************
+    Main wrapper start
+***********************************-->
+<div id="main-wrapper">
+
+    <!--**********************************
+        Nav header start
+    ***********************************-->
+    <div class="nav-header">
+        <a href="{% url 'home_view' %}" class="brand-logo">
+            <img class="logo-abbr" src="{% static 'crm/images/logo-white.png' %}" alt="">
+            <img class="logo-compact" src="{% static 'crm/images/logo-text.png' %}" alt="">
+            <img class="brand-title" src="{% static 'crm/images/logo-text.png' %}" alt="">
+        </a>
+
+        <div class="nav-control">
+            <div class="hamburger">
+                <span class="line"></span><span class="line"></span><span class="line"></span>
+            </div>
+        </div>
+    </div>
+    <!--**********************************
+        Nav header end
+    ***********************************-->
+
+
+    <!--**********************************
+        Sidebar Fixed
+    ***********************************-->
+    <div class="fixed-content-box">
+        <div class="head-name">
+            MotaAdmin
+            <span class="close-fixed-content fa-left d-lg-none">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                         height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none"
+                                                                            fill-rule="evenodd"><polygon
+                            points="0 0 24 0 24 24 0 24"/><rect fill="#000000" opacity="0.3"
+                                                                transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) "
+                                                                x="14" y="7" width="2" height="10" rx="1"/><path
+                            d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z"
+                            fill="#000000" fill-rule="nonzero"
+                            transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) "/></g></svg>
+				</span>
+        </div>
+        <div class="fixed-content-body dz-scroll" id="DZ_W_Fixed_Contant">
+            <div class="tab-content" id="menu">
+                <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                    <ul class="metismenu tab-nav-menu">
+                        <li class="nav-label">DASHBOARD</li>
+                        <li {% if request.resolver_match.url_name in url_pattern.product %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Товары
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.product_category_create %}class="mm-active"{% endif %}><a href="{% url 'product_category_create' %}">Категории Товаров</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.product_create %}class="mm-active"{% endif %}><a href="{% url 'product_create' %}">Товары</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.product_report %}class="mm-active"{% endif %}><a href="{% url 'product_report' %}">Отчет по продуктам</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.income %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Приходы
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.income %}class="mm-active"{% endif %}><a href="{% url 'income_list' %}">Список приходов</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.warehouse %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Склад
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.warehouse_create %}class="mm-active"{% endif %}><a href="{% url 'warehouse_create' %}">Список складов</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.return_items %}class="mm-active"{% endif %}><a href="{% url 'return_items' %}">Список возвращённых товаров</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.order %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Заказы
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.order_list %}class="mm-active"{% endif %}><a href="{% url 'order_list' %}">Список заказов</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.retail_order_list %}class="mm-active"{% endif %}><a href="{% url 'retail_order_list' %}">Список розничных клиентов</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.movement %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Перемещения между складов
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.movement %}class="mm-active"{% endif %}><a href="{% url 'movement_list' %}">Список перемещения</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.payment %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Журнал платежей
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.payment_treatment %}class="mm-active"{% endif %}><a href="{% url 'payment_treatment' %}"> Список необработанных платежей</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.payment_list %}class="mm-active"{% endif %}><a href="{% url 'payment_list' %}"> Список платежей</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.counter_party %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Контрагенты
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.counter_party_list %}class="mm-active"{% endif %}><a href="{% url 'counter_party_list' %}">Список контрагентов</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.retail_client_list %}class="mm-active"{% endif %}><a href="{% url 'retail_client_list' %}">Список розничных клиентов</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.provider %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Поставщики
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.order_invoice_provider_create %}class="mm-active"{% endif %}><a href="{% url 'order_invoice_provider_create' %}">Шаблоны поставщиков</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.provider_create %}class="mm-active"{% endif %}><a href="{% url 'provider_create' %}">Список поставщиков</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.user %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Пользователи
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.user %}class="mm-active"{% endif %}><a href="{% url 'user_list' %}">Список пользователей</a></li>
+                            </ul>
+                        </li>
+                        <li {% if request.resolver_match.url_name in url_pattern.reports %}class="mm-active"{% endif %}>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                              fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                Отчеты
+                            </a>
+                            <ul aria-expanded="false">
+                                <li {% if request.resolver_match.url_name in url_pattern.payment_real_income %}class="mm-active"{% endif %}><a href="{% url 'payment_real_income' %}">Отчет по прибыли (Реальное)</a></li>
+                                <li {% if request.resolver_match.url_name in url_pattern.payment_theory_income %}class="mm-active"{% endif %}><a href="{% url 'payment_theory_income' %}">Отчет по прибыли (Теоретическая)</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--**********************************
+        Sidebar End
+    ***********************************-->
+
+
+    <!--**********************************
+        Header start
+    ***********************************-->
+    <div class="header">
+        <div class="header-content">
+            <nav class="navbar navbar-expand">
+                <div class="collapse navbar-collapse justify-content-between">
+
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!--**********************************
+        Header end ti-comment-alt
+    ***********************************-->
+
+    <!--**********************************
+        Sidebar start
+    ***********************************-->
+    <div class="deznav">
+        <div class="deznav-scroll">
+            <ul class="nav menu-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#dashboard">
+                        <svg id="icon-home1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <a href="{% url 'user_logout_view' %}" class="logout-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="feather feather-log-out">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </a>
+    </div>
+    <!--**********************************
+        Sidebar end
+    ***********************************-->
+
+    <!--**********************************
+        Content body start
+    ***********************************-->
+    <div class="content-body">
+        <!-- row -->
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+
+    <!--**********************************
+        Footer start
+    ***********************************-->
+    <div class="footer">
+        <div class="copyright">
+            <p>Copyright © Designed &amp; Developed by <a href="http://diamondsolutions.uz/" target="_blank">DiamondSolutions</a>
+                2021</p>
+        </div>
+    </div>
+    <!--**********************************
+        Footer end
+    ***********************************-->
+
+    <!--**********************************
+       Support ticket button start
+    ***********************************-->
+
+    <!--**********************************
+       Support ticket button end
+    ***********************************-->
+
+
+</div>
+<!--**********************************
+    Main wrapper end
+***********************************-->
+
+<!--**********************************
+    Scripts
+***********************************-->
+<!-- Required vendors -->
+<script src="{% static 'crm/vendor/global/global.min.js' %}"></script>
+<script src="{% static 'crm/vendor/chart.js/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'crm/js/custom.min.js' %}"></script>
+<script src="{% static 'crm/js/deznav-init.js' %}"></script>
+<script src="{% static 'crm/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+<!-- Apex Chart -->
+<script src="{% static 'crm/vendor/apexchart/apexchart.js' %}"></script>
+
+<!-- Vectormap -->
+<!-- Chart piety plugin files -->
+<script src="{% static 'crm/vendor/peity/jquery.peity.min.js' %}"></script>
+
+<!-- Chartist -->
+<script src="{% static 'crm/vendor/chartist/js/chartist.min.js' %}"></script>
+
+<!-- Dashboard 1 -->
+<script src="{% static 'crm/js/dashboard/dashboard-1.js' %}"></script>
+<!-- Svganimation scripts -->
+<script src="{% static 'crm/vendor/svganimation/vivus.min.js' %}"></script>
+<script src="{% static 'crm/vendor/svganimation/svg.animation.js' %}"></script>
+{% block extra_js %}
+{% endblock extra_js %}
+</body>
+</html>

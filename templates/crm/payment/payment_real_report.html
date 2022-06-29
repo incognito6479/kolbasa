@@ -1,0 +1,124 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4> Отчет по прибыли (Реальное)</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 text-right p-md-0">
+            <div class="welcome-text">
+                <h4>
+                    <a href="{% url 'payment_real_income_excel' %}" class="btn btn-sm btn-info">
+                        Сохранить как Excel        
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'payment_real_income' %}" method="GET">
+            <div class="row w-100">
+                <div class="col-12 col-md-5">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-5">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-2 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Доход на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} - {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата создание</strong></th>
+                        <th><strong>Принял</strong></th>
+                        <th><strong>Контрагент</strong></th>
+                        <th><strong>Сумма</strong></th>
+                        <th><strong>Статус</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for payment in payments_income %}
+                        <tr>
+                            <td><strong>{{ payment.id }}</strong></td>
+                            <td>{{ payment.created|date:'d.m.Y H:i' }}</td>
+                            <td>{{ payment.user.username }} | {{ payment.user.get_user_type_display }}</td>
+                            <td>{{ payment.counter_party_name|default:'-' }}</td>
+                            <td>{{ payment.amount|to_local }}</td>
+                            <td>{{ payment.get_status_display }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Расход на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} - {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата создание</strong></th>
+                        <th><strong>Принял</strong></th>
+                        <th><strong>Контрагент</strong></th>
+                        <th><strong>Сумма</strong></th>
+                        <th><strong>Статус</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for payment in payments_outcome %}
+                        <tr>
+                            <td><strong>{{ payment.id }}</strong></td>
+                            <td>{{ payment.created|date:'d.m.Y H:i' }}</td>
+                            <td>{{ payment.user.username }} | {{ payment.user.get_user_type_display }}</td>
+                            <td>{{ payment.counter_party_name|default:'-' }}</td>
+                            <td>{{ payment.amount|to_local }}</td>
+                            <td>{{ payment.get_status_display }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-6 col-lg-2"><strong>Общий Доход:</strong></div>
+            <div class="col-6 col-lg-2">{{ payments_income_total.total|default:0|to_local }} сум</div>
+            <div class="col-6 col-lg-2"><strong>Общий Расход:</strong></div>
+            <div class="col-6 col-lg-2">{{ payments_outcome_total.total|default:0|to_local }} сум</div>
+            <div class="col-6 col-lg-2"><strong>Общий Прибыл:</strong></div>
+            <div class="col-6 col-lg-2">{{ payments_income_total.total|minus:payments_outcome_total.total|default:0|to_local }} сум</div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

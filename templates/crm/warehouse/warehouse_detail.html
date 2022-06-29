@@ -1,0 +1,70 @@
+{% extends 'crm/base.html' %}
+{% load static %}
+{% load widget_tweaks custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Склад: # {{ warehouse.id }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row page-titles mx-0">
+        <div class="col-md-6">
+            <div class="">
+                <table border="1" class="table table-responsive-md">
+                    <tr>
+                        <td class="bg-light">НАЗВАНИЕ</td>
+                        <td>{{ warehouse.name }}</td>
+                        <td class="bg-light">АДРЕС</td>
+                        <td>{{ warehouse.address }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Склад Товары</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive-md">
+                        <thead>
+                        <tr>
+                            <th><strong>#</strong></th>
+                            <th><strong>Создан</strong></th>
+                            <th><strong>Товар</strong></th>
+                            <th><strong>Количество</strong></th>
+                            <th><strong>Цена</strong></th>
+                            <th><strong>Сумма</strong></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for item in warehouse_products %}
+                            <tr>
+                                <td><strong>{{ item.id }}</strong></td>
+                                <td>{{ item.created }}</td>
+                                <td>{{ item.product }}</td>
+                                <td>{{ item.count|to_local }} {{ item.product.get_unit_type_display }}</td>
+                                <td>{{ item.self_price|to_local }} сум</td>
+                                <td>{{ item.count|mul:item.self_price|to_local }} сум</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">Пусто</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+{% endblock %}

@@ -1,0 +1,186 @@
+/*
+-----------------------------------------------------------------------
+    Contact CSS
+-----------------------------------------------------------------------
+*/
+.contact-area {
+  &.contact-page-area {
+    .container {
+      max-width: 1200px;
+      padding-top: 82px;
+      padding-bottom: 65px;
+    }
+  }
+}
+.contact-info {
+  &-static {
+    .info-item {
+      text-align: center;
+
+      .icon-box {
+        color: $white;
+        font-size: 40px;
+        line-height: 1;
+        margin-bottom: 12px;
+      }
+
+      p {
+        color: $white;
+        font-size: 14px;
+        letter-spacing: .1em;
+        line-height: 1;
+        @media #{$md-device} {
+          line-height: 24px;
+        }
+      }
+
+      &:hover {
+        .icon-box {
+          animation: tada 1s linear infinite;
+        }
+      }
+    }
+
+    .col-border {
+      border-left: 1px solid rgba($white, .15);
+    }
+  }
+
+  &-list {
+    margin-left: 70px;
+    margin-top: 50px;
+    position: relative;
+    @media #{$lg-device} {
+      margin-left: 0;
+      margin-top: 0;
+    }
+    @media #{$md-device} {
+      margin-top: 30px;
+    }
+    .contact-info {
+      background-size: cover;
+      position: relative;
+      padding: 86px 85px 78px;
+      @media #{$lg-device} {
+        padding: 66px 55px 40px;
+      }
+      @media #{$xxs-device} {
+        padding: 46px 25px 30px;
+      }
+      &:after {
+        background-color: #f7f7f7;
+        border: 1px solid #eee;
+        content: "";
+        left: 0;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        @include transition(all .4s ease-out);
+      }
+      .info-item {
+        margin-bottom: 38px;
+        position: relative;
+        z-index: 2;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .info {
+          .title {
+            color: $theme-color;
+            font-size: 30px;
+            font-weight: $font-weight-semi-bold;
+            margin-bottom: 16px;
+          }
+          p {
+            color: #0f0f0fa6;
+            font-weight: $font-weight-normal;
+            font-size: 18px;
+            line-height: 1.8;
+            letter-spacing: .5px;
+            a {
+              color: #0f0f0fa6;
+              display: block;
+              &:hover {
+                color: $theme-color;
+              }
+            }
+          }
+        }
+      }
+      &:hover {
+      }
+    }
+  }
+}
+
+.contact-page-wrapper {
+  .contact-form-wrap {
+    margin-right: -30px;
+    @media #{$lg-device} {
+      margin-right: 0;
+    }
+    .contact-form-title {
+      .sub-title {
+        font-weight: 400;
+        font-size: 30px;
+        margin-bottom: 10px;
+        @media #{$lg-device} {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+      }
+      .title {
+        font-size: 42px;
+        margin-bottom: 38px;
+        @media #{$lg-device} {
+          font-size: 32px;
+          margin-bottom: 28px;
+        }
+      }
+    }
+  }
+}
+
+.newsletter-content-wrap {
+  .newsletter-form {
+    position: relative;
+
+    .form-control {
+      box-shadow: none;
+      background-color: $white;
+      border: 1px solid #bcbcbc;
+      border-radius: 50px;
+      color: #b2b2b2;
+      display: inline-block;
+      font-size: 14px;
+      height: 52px;
+      padding: 13px 120px 10px 30px;
+      width: 100%;
+      @include placeholder {
+        color: #b2b2b2;
+      }
+    }
+    .btn-submit {
+      background-color: $theme-color;
+      border: 0;
+      box-shadow: none;
+      border-radius: 50px;
+      color: $white;
+      font-size: 14px;
+      font-weight: $font-weight-bold;
+      height: 40px;
+      line-height: 40px;
+      position: absolute;
+      padding: 0 20px;
+      right: 0;
+      top: 50%;
+      text-transform: uppercase;
+      @include translate(-5px, -50%);
+
+      &:hover {
+        background-color: $black-0f;
+      }
+    }
+  }
+}

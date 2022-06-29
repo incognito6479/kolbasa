@@ -1,0 +1,162 @@
+{% extends 'crm/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Перемещения: # {{ movement.id }} Дата: {{ movement.created.date }}</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0">
+            <div class="">
+                <h4 class="text-black-50">
+                    <strong class="text-black">Со склад:</strong> <a href="#" style="text-decoration: none">{{ movement.from_warehouse }}</a> | <strong class="text-black">В склад:</strong> <a href="#" style="text-decoration: none">{{ movement.to_warehouse }}</a>
+                    <strong class="text-black">Пользователь: <strong class="text-black-50">{{ request.user }}</strong></strong>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row page-titles mx-0">
+        <div class="col-md-6">
+            <div class="">
+                <table border="1" class="table table-responsive-sm">
+                    <tr>
+                        <td class="bg-light">Статус</td>
+                        <td>{{ movement.get_status_display }}</td>
+                        <td class="bg-light">Сумма</td>
+                        <td>{{ movement.total }} сумм</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex">
+                {% if movement.status == 'created' %}
+                    <form class="mx-1" method="POST" action="{% url 'movement_actions' movement.id %}">
+                    {% csrf_token %}
+                        <input type="hidden" name="action" value="change_movement_status">
+                        <input type="hidden" name="change_status" value="completed">
+                        <button type="submit" class="btn btn-success">Принять</button>
+                    </form>
+                    <form method="POST" action="{% url 'movement_actions' movement.id %}">
+                    {% csrf_token %}
+                        <input type="hidden" name="action" value="change_movement_status">
+                        <input type="hidden" name="change_status" value="rejected">
+                        <button type="submit" class="btn btn-danger">Отменить</button>
+                    </form>
+                    {% elif movement.status == 'completed' %}
+                        <form method="POST" action="{% url 'movement_actions' movement.id %}">
+                        {% csrf_token %}
+                            <input type="hidden" name="action" value="change_movement_status">
+                            <input type="hidden" name="change_status" value="rejected">
+                            <button type="submit" class="btn btn-danger">Отменить</button>
+                        </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Элементы перемещения</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive-md">
+                        <thead>
+                        <tr>
+                            <th><strong>#</strong></th>
+                            <th><strong>Товар</strong></th>
+                            <th><strong>Количество</strong></th>
+                            <th><strong>Цена</strong></th>
+                            <th><strong>Сумма</strong></th>
+                            {% if mocement.status == 'created' %}
+                                <th><strong>Действие</strong></th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for item in movement_item %}
+                            <tr>
+                                <td><strong>{{ item.id }}</strong></td>
+                                <td>{{ item.warehouse_product }}</td>
+                                <td>{{ item.count }}</td>
+                                <td>{{ item.price }} сумм</td>
+                                <td>{{ item.total }} сумм</td>
+                                {% if movement.status == 'created' %}
+                                    <td>
+                                        <div class="d-flex">
+                                            <form method="POST" action="{% url 'movement_actions' movement.id %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product" value="{{ item.id }}">
+                                                <input type="hidden" name="action" value="delete_movement_item">
+                                                <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">Пусто</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% if movement.status == 'created' %}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Добавить элемент</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'movement_actions' movement.id %}">
+                    {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Склад</label>
+                                <select class="form-control" required>
+                                    <option value="" selected disabled>---</option>
+                                        <option value="{{ i.id }}">{{ warehouse.name }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Склад Товары</label>
+                                <select name="product" class="form-control" required>
+                                    <option value="" selected disabled>----</option>
+                                    {% for i in warehouse_products %}
+                                        <option value="{{ i.id }}">
+                                            {{ i.product }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        <div class="col-md-3">
+                            <label>Количество</label>
+                            <input name="count" type="number" min="0" class="form-control" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Сумма</label>
+                            <input name="price" type="number" min="0" class="form-control" required>
+                        </div>
+                            <div class="col-md-2 mt-5">
+                                <input type="hidden" name="action" value="add_movement_item">
+                                <button type="submit" class="btn btn-primary">Добавить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+{% endblock %}

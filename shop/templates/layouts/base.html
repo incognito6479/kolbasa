@@ -1,0 +1,772 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Argima - Cosmetics Responsive Bootstrap 5 Template</title>
+
+    <!--== Favicon ==-->
+    <link rel="shortcut icon" href="{% static 'shop/img/favicon.ico' %}" type="image/x-icon" />
+
+    <!--== Bootstrap CSS ==-->
+    <link href="{% static 'shop/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <!--== Ionicon CSS ==-->
+    <link href="{% static 'shop/css/ionicons.min.css' %}" rel="stylesheet" />
+    <!--== Simple Line Icon CSS ==-->
+    <link href="{% static 'shop/css/simple-line-icons.css' %}" rel="stylesheet" />
+    <!--== Line Icons CSS ==-->
+    <link href="{% static 'shop/css/lineIcons.css' %}" rel="stylesheet" />
+    <!--== Font Awesome Icon CSS ==-->
+    <link href="{% static 'shop/css/font-awesome.min.css' %}" rel="stylesheet" />
+    <!--== Animate CSS ==-->
+    <link href="{% static 'shop/css/animate.css' %}" rel="stylesheet" />
+    <!--== Swiper CSS ==-->
+    <link href="{% static 'shop/css/swiper.min.css' %}" rel="stylesheet" />
+    <!--== Range Slider CSS ==-->
+    <link href="{% static 'shop/css/range-slider.css' %}" rel="stylesheet" />
+    <!--== Fancybox Min CSS ==-->
+    <link href="{% static 'shop/css/fancybox.min.css' %}" rel="stylesheet" />
+    <!--== Slicknav Min CSS ==-->
+    <link href="{% static 'shop/css/slicknav.css' %}" rel="stylesheet" />
+    <!--== Owl Carousel Min CSS ==-->
+    <link href="{% static 'shop/css/owlcarousel.min.css' %}" rel="stylesheet" />
+    <!--== Owl Theme Min CSS ==-->
+    <link href="{% static 'shop/css/owltheme.min.css' %}" rel="stylesheet" />
+    <!--== Spacing CSS ==-->
+    <link href="{% static 'shop/css/spacing.css' %}" rel="stylesheet" />
+
+    <!--== Theme Font CSS ==-->
+    <link href="{% static 'shop/css/theme-font.css' %}" rel="stylesheet" />
+
+    <!--== Main Style CSS ==-->
+    <link href="{% static 'shop/css/style.css' %}" rel="stylesheet" />
+
+</head>
+
+<body>
+
+<!--wrapper start-->
+<div class="wrapper home-default-wrapper">
+
+  <!--== Start Preloader Content ==-->
+  <div class="preloader-wrap">
+    <div class="preloader">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!--== End Preloader Content ==-->
+
+  <!--== Start Header Wrapper ==-->
+  <header class="header-area header-default header-style">
+    <!--== Start Header Top ==-->
+    <div class="header-top">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6 text-md-start text-center">
+            <p>Additional 20% Off Sale Items – Please See Details</p>
+          </div>
+          <div class="col-md-6 text-md-end text-center mt-sm-15">
+            <div class="theme-setting">
+              <a class="dropdown-btn" href="#" role="button">
+                Setting
+                <i class="ion-ios-arrow-down"></i>
+              </a>
+              <ul class="dropdown-content">
+                <li>
+                  <a href="#">My account</a>
+                </li>
+                <li>
+                  <a href="#">Checkout</a>
+                </li>
+                <li>
+                  <a href="#" >Sign out</a>
+                </li>
+              </ul>
+            </div>
+            <div class="theme-currency">
+              <a class="dropdown-btn" href="#" role="button">
+                EUR €
+                <i class="ion-ios-arrow-down"></i>
+              </a>
+              <ul class="dropdown-content">
+                <li>
+                  <a href="#">EUR €</a>
+                </li>
+                <li>
+                  <a href="#">USD $</a>
+                </li>
+              </ul>
+            </div>
+            <div class="theme-language">
+              <a class="dropdown-btn" href="#" role="button">
+                <img src="{% static 'shop/img/photos/language-01.jpg' %}" alt="Has-Image">English
+                <i class="ion-ios-arrow-down"></i>
+              </a>
+              <ul class="dropdown-content">
+                <li>
+                  <a href="#/"><img src="{% static 'shop/img/photos/language-01.jpg' %}" alt="Has-Image">English</a>
+                </li>
+                <li>
+                  <a href="#/"><img src="{% static 'shop/img/photos/language-02.jpg' %}" alt="Has-Image">Italiano</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--== End Header Top ==-->
+
+    <!--== Start Header Bottom ==-->
+    <div class="header-bottom sticky-header hidden-md-down">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col col-12">
+            <div class="header-align align-default">
+              <div class="align-left">
+                <div class="header-logo-area">
+                  <a href="index.html">
+                    <img class="logo-main" src="{% static 'shop/img/logo.png' %}" alt="Logo" />
+                    <img class="logo-light d-none" src="{% static 'shop/img/logo-light.png' %}" alt="Logo" />
+                  </a>
+                </div>
+                <div class="header-navigation-area hidden-md-down">
+                  <ul class="main-menu nav position-relative">
+                    <li class="has-submenu"><a href="#">Home</a>
+                      <ul class="submenu-nav">
+                        <li><a href="#">Home One</a></li>
+                        <li><a href="#">Home Two</a></li>
+                        <li><a href="#">Home Three</a></li>
+                        <li><a href="#">Home Four</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#">About Us</a></li>
+                    <li class="has-submenu full-width"><a href="#">Shop</a>
+                      <ul class="submenu-nav submenu-nav-mega submenu-nav-width">
+                        <li class="mega-menu-item"><a href="#/" class="mega-title">Shop Pages</a>
+                          <ul>
+                            <li><a href="#">Shop Grid</a></li>
+                            <li><a href="#">3 Column</a></li>
+                            <li><a href="#">4 Column</a></li>
+                            <li><a href="#">Left Sidebar</a></li>
+                            <li><a href="#">Right Sidebar</a></li>
+                          </ul>
+                        </li>
+                        <li class="mega-menu-item"><a href="#/" class="mega-title">Shop List</a>
+                          <ul>
+                            <li><a href="#">Shop List Sidebar</a></li>
+                            <li><a href="#">Shop List</a></li>
+                            <li><a href="#">Shop List Left Sidebar</a></li>
+                            <li><a href="#">Shop List Right Sidebar</a></li>
+                          </ul>
+                        </li>
+                        <li class="mega-menu-item"><a href="#/" class="mega-title">Single Product</a>
+                          <ul>
+                            <li><a href="#">Single Product Normal</a></li>
+                            <li><a href="#">Single Product Variable</a></li>
+                            <li><a href="#">Single Product External</a></li>
+                            <li><a href="#">Single Product Group</a></li>
+                          </ul>
+                        </li>
+                        <li class="mega-menu-item"><a href="#/" class="mega-title">Single Pages</a>
+                          <ul>
+                            <li><a href="cart.html">Cart</a></li>
+                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                            <li><a href="compare.html">Compare</a></li>
+                            <li><a href="my-account.html">My Account</a></li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="register.html">Register</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="has-submenu full-width"><a href="#">Blog</a>
+                      <ul class="submenu-nav submenu-nav-mega submenu-nav-width-two colunm-two">
+                        <li class="mega-menu-item"><a href="#" class="mega-title">Layouts</a>
+                          <ul>
+                            <li><a href="#">Blog Grid 03 Columns</a></li>
+                            <li><a href="#">Blog Grid 04 Columns</a></li>
+                            <li><a href="#">Blog Left Sidebar</a></li>
+                            <li><a href="#">Blog Right Sidebar</a></li>
+                          </ul>
+                        </li>
+                        <li class="mega-menu-item"><a href="#" class="mega-title">Single Post</a>
+                          <ul>
+                            <li><a href="#">Single Blog</a></li>
+                            <li><a href="#">Single Blog Left Sidebar</a></li>
+                            <li><a href="#">Single Blog Right Sidebar</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a href="#">Contact us</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="align-right">
+                <div class="contact-link float-start">
+                  <div class="phone">
+                    <span>Call us:</span>
+                    <a href="tel:(+123)4567890">(+123)4567890</a>
+                  </div>
+                </div>
+                <div class="header-action-area float-start">
+                  <div class="search-content-wrap">
+                    <button class="btn-search">
+                      <span class="icon icon-search icon-magnifier"></span>
+                    </button>
+                    <div class="btn-search-content">
+                      <form action="#" method="post">
+                        <div class="form-input-item">
+                          <input type="text"  placeholder="Enter your search key ...">
+                          <button type="submit" class="btn-src">
+                            <i class="icon-magnifier"></i>
+                          </button>
+                          <div class="search-categorie">
+                            <select class="form-select" name="poscats">
+                              <option selected>All categories</option>
+                              <option value="1">Beauty &amp; Health</option>
+                              <option value="2">- - Makeup</option>
+                              <option value="3">- - - - Eyes</option>
+                              <option value="4">- - - - Lips</option>
+                              <option value="5">- - - - Face</option>
+                              <option value="6">- - - - Makeup Tools</option>
+                              <option value="7"> - - Skin Care</option>
+                              <option value="8">- - - - Face</option>
+                              <option value="9">- - - - Eyes</option>
+                              <option value="10">- - - - Body</option>
+                              <option value="11">- - - - Skin Care Tools</option>
+                              <option value="12">- - Health Care</option>
+                              <option value="13">- - - - Massage &amp; Relaxation</option>
+                              <option value="14">- - - - Household Health Monitors</option>
+                              <option value="15">- - - - Chinese Medicine</option>
+                              <option value="16">- - - - Personal Health Care Items</option>
+                              <option value="17">- - Nail Art &amp; Tools</option>
+                              <option value="18">- - - - Gel Nail Polish</option>
+                              <option value="19">- - - - Nail Drills</option>
+                              <option value="20">- - - - Nail Dryers</option>
+                              <option value="21">- - - - Nail Glitter</option>
+                            </select>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="shop-button-group">
+                    <div class="shop-button-item">
+                      <a class="shop-button" href="#">
+                        <i class="icon-shuffle icon"></i>
+                        <sup class="shop-count">5</sup>
+                      </a>
+                    </div>
+                    <div class="shop-button-item">
+                      <a class="shop-button" href="#">
+                        <i class="icon-heart icon"></i>
+                        <sup class="shop-count">2</sup>
+                      </a>
+                    </div>
+                    <div class="shop-button-item">
+                      <a class="shop-button" href="#">
+                        <i class="icon-bag icon"></i>
+                        <sup class="shop-count">2</sup>
+                        <span class="cart-total">€58.32</span>
+                      </a>
+                      <div class="popup-cart-content">
+                        <ul class="popup-product-list">
+                          <li class="product-list-item">
+                            <a href="#">
+                              <img src="{% static 'shop/img/shop/cart-01.jpg' %}" alt="Image-HasTech">
+                              <span class="product-title">Juicy Couture Juicy Quilted Terry Track Jacket</span>
+                              <span class="product-quantity">1x</span>
+                            </a>
+                            <span class="product-price">€43.80</span>
+                            <span class="product-size">Size: S</span>
+                            <a class="product-close" href="#"><i class="la la-close"></i></a>
+                          </li>
+                          <li class="product-list-item">
+                            <a href="#">
+                              <img src="{% static 'shop/img/shop/cart-02.jpg' %}" alt="Image-HasTech">
+                              <span class="product-title">Trans-Weight Hooded Wind and Water Resistant Shell</span>
+                              <span class="product-quantity">1x</span>
+                            </a>
+                            <span class="product-price">€14.52</span>
+                            <a class="product-close" href="#"><i class="la la-close"></i></a>
+                          </li>
+                        </ul>
+                        <div class="price-content">
+                          <div class="cart-subtotals">
+                            <div class="products">
+                              <span class="label">Subtotal</span>
+                              <span class="value">€58.32</span>
+                            </div>
+                            <div class="products">
+                              <span class="label">Shipping</span>
+                              <span class="value">Free</span>
+                            </div>
+                          </div>
+                          <div class="cart-total">
+                            <span class="label">Total</span>
+                            <span class="value">€58.32</span>
+                          </div>
+                        </div>
+                        <div class="checkout">
+                          <a href="#" class="btn-Checkout">Checkout</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--== End Header Bottom ==-->
+
+    <!--== Start Responsive Header ==-->
+    <div class="responsive-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-4">
+            <div class="header-item">
+              <button class="btn-menu" type="button"><i class="icon-menu"></i></button>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="header-item justify-content-center">
+              <div class="header-logo-area">
+                <a href="#">
+                  <img class="logo-main" src="{% static 'shop/img/logo.png' %}" alt="Logo" />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="header-item justify-content-end">
+              <button class="btn-user" onclick="window.location.href='my-account.html'"><i class="icon-user"></i></button>
+              <button class="btn-cart" onclick="window.location.href='cart.html'"><i class="icon-bag"></i> <span class="item-count">2</span></button>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="responsive-search-content">
+              <form action="#">
+                <div class="form-input-item">
+                  <input type="text"  placeholder="Enter your search key ...">
+                  <button type="submit" class="btn-src">
+                    <i class="icon-magnifier"></i>
+                  </button>
+                  <div class="search-categorie">
+                    <select class="form-select" name="poscats">
+                      <option selected>All categories</option>
+                      <option value="1">Beauty &amp; Health</option>
+                      <option value="2">- - Makeup</option>
+                      <option value="3">- - - - Eyes</option>
+                      <option value="4">- - - - Lips</option>
+                      <option value="5">- - - - Face</option>
+                      <option value="6">- - - - Makeup Tools</option>
+                      <option value="7"> - - Skin Care</option>
+                      <option value="8">- - - - Face</option>
+                      <option value="9">- - - - Eyes</option>
+                      <option value="10">- - - - Body</option>
+                      <option value="11">- - - - Skin Care Tools</option>
+                      <option value="12">- - Health Care</option>
+                      <option value="13">- - - - Massage &amp; Relaxation</option>
+                      <option value="14">- - - - Household Health Monitors</option>
+                      <option value="15">- - - - Chinese Medicine</option>
+                      <option value="16">- - - - Personal Health Care Items</option>
+                      <option value="17">- - Nail Art &amp; Tools</option>
+                      <option value="18">- - - - Gel Nail Polish</option>
+                      <option value="19">- - - - Nail Drills</option>
+                      <option value="20">- - - - Nail Dryers</option>
+                      <option value="21">- - - - Nail Glitter</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--== End Responsive Header ==-->
+  </header>
+  <!--== End Header Wrapper ==-->
+
+  <main class="main-content">
+    <!--== Start Hero Area Wrapper ==-->
+    <section class="home-slider-area">
+      <div class="swiper-container swiper-pagination-style home-slider-container default-slider-container">
+        <div class="swiper-wrapper home-slider-wrapper slider-default">
+          <div class="swiper-slide">
+            <div class="slider-content-area" data-bg-img="assets/img/slider/slider-01.jpg">
+              <div class="container">
+                <div class="row justify-content-end">
+                  <div class="col-10 col-sm-6 col-md-5">
+                    <div class="slider-content animate-pulse">
+                      <h5 class="sub-title transition-slide-0">Real cover pink cushion</h5>
+                      <h2 class="title transition-slide-1 mb-0"><span class="font-weight-400">Face Makeup</span></h2>
+                      <h2 class="title transition-slide-2">Sale 40% Off</h2>
+                      <a class="btn-slide transition-slide-3" href="#">Shop Now</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="slider-content-area" data-bg-img="assets/img/slider/slider-02.jpg">
+              <div class="container">
+                <div class="row justify-content-end">
+                  <div class="col-10 col-sm-6 col-md-5">
+                    <div class="slider-content animate-flipInX">
+                      <h5 class="sub-title transition-slide-0">simple organic</h5>
+                      <h2 class="title transition-slide-1 mb-0"><span class="font-weight-400">summer sale</span></h2>
+                      <h2 class="title transition-slide-2">10% All Items</h2>
+                      <a class="btn-slide transition-slide-3" href="#">Shop Now</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="slider-content-area" data-bg-img="{% static 'shop/img/slider/slider-03.jpg' %}">
+              <div class="container">
+                <div class="row justify-content-end">
+                  <div class="col-10 col-sm-6 col-md-5">
+                    <div class="slider-content animate-jackInTheBox">
+                      <h5 class="sub-title transition-slide-0">Organic Skincare</h5>
+                      <h2 class="title transition-slide-1 mb-0"><span class="font-weight-400">LOOKING SKIN</span></h2>
+                      <h2 class="title transition-slide-2">ANTI-AGEING</h2>
+                      <a class="btn-slide transition-slide-3" href="#">Shop Now</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--== Add Swiper Pagination ==-->
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+    <!--== End Hero Area Wrapper ==-->
+
+    <!--== Start Product Area Wrapper ==-->
+    <!--== End Product Area Wrapper ==-->
+
+    <!--== Start Product Discount Area Wrapper ==-->
+    <!--== End Product Discount Area Wrapper ==-->
+
+    <!--== Start Product Area Wrapper ==-->
+    <!--== End Product Area Wrapper ==-->
+    <!--== Start Feature Area Wrapper ==-->
+
+    <!--== End Feature Area Wrapper ==-->
+
+    <!--== Start Product Category Area Wrapper ==-->
+    <!--== End Product Category Area Wrapper ==-->
+
+    <!--== Start Testimonial Area Wrapper ==-->
+
+    <!--== End Testimonial Area Wrapper ==-->
+
+    <!--== Start Product Area Wrapper ==-->
+
+    <!--== End Product Area Wrapper ==-->
+
+    <!--== Start Blog Area Wrapper ==-->
+
+    <!--== End Blog Area Wrapper ==-->
+
+    <!--== Start Contact Info Area Wrapper ==-->
+
+    <!--== End Contact Info Area Wrapper ==-->
+
+    <!--== Start Divider Area Wrapper ==-->
+    <section class="divider-area">
+      <div class="container pt-90 pt-lg-70 pb-lg-60">
+        <div class="row">
+          <div class="col-12">
+            <div class="divider-style-wrap">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="divider-content text-center">
+                    <h4 class="title hidden-sm-down">Let’s Connect On Social</h4>
+                    <h4 class="title2 hidden-md-up collapsed" data-bs-toggle="collapse" data-bs-target="#dividerId-1">Let’s Connect On Social</h4>
+                    <div id="dividerId-1" class="collapse">
+                      <div class="social-icons">
+                        <a href="#"><i class="la la-facebook"></i></a>
+                        <a href="#"><i class="la la-twitter"></i></a>
+                        <a href="#"><i class="la la-youtube"></i></a>
+                        <a href="#"><i class="la la-instagram"></i></a>
+                      </div>
+                      <p class="mb-sm-25">Follow us on your favorite platforms. Check out new launch teasers, how-to videos, and share your favorite looks.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="divider-content text-center">
+                    <h4 class="title hidden-sm-down" data-margin-bottom="32">Sign Up For Newsletter</h4>
+                    <h4 class="title2 hidden-md-up collapsed" data-bs-toggle="collapse" data-bs-target="#dividerId-2">Sign Up For Newsletter</h4>
+                    <div id="dividerId-2" class="collapse">
+                      <div class="newsletter-content-wrap">
+                        <div class="newsletter-form">
+                          <form>
+                            <input type="email" class="form-control" placeholder="Your email address">
+                            <button class="btn btn-submit" type="button">Sign up</button>
+                          </form>
+                        </div>
+                      </div>
+                      <p>You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Divider Area Wrapper ==-->
+  </main>
+
+  <!--== Start Footer Area Wrapper ==-->
+  <footer class="footer-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <!--== Start Footer Widget Area ==-->
+          <div class="footer-widget-area pb-30">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="widget-item">
+                  <div class="about-widget">
+                    <div class="inner-content">
+                      <div class="footer-logo">
+                        <a href="#">
+                          <img class="logo-light" src="{% static 'shop/img/logo-light.png' %}" alt="Logo" />
+                        </a>
+                      </div>
+                      <p>Location: 4710-4890 Breckỉnidge St, Fayettevill USA</p>
+                    </div>
+                    <div class="widget-desc">
+                      <p>We are a team of designers and developers that create high quality Magento, Prestashop, Opencart.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="widget-item">
+                  <div class="widget-menu-wrap">
+                    <ul class="nav-menu">
+                      <li><a href="#">Delivery</a></li>
+                      <li><a href="#">Legal Notice</a></li>
+                      <li><a href="#">About us</a></li>
+                      <li><a href="#">Secure payment</a></li>
+                      <li><a href="#">Contact us</a></li>
+                      <li><a href="#">Sitemap</a></li>
+                      <li><a href="#">Login</a></li>
+                      <li><a href="#">My account</a></li>
+                      <li><a href="#">Stores</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--== End Footer Widget Area ==-->
+        </div>
+      </div>
+    </div>
+    <!--== Start Footer Bottom Area ==-->
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <p class="copyright">Copyright © 2021 All Rights Reserved | Made with <i class="fa fa-heart-o"></i> by <a target="_blank" href="https://www.hasthemes.com">HasThemes.</a></p>
+          </div>
+          <div class="col-lg-6">
+            <div class="payment">
+              <img src="{% static 'shop/img/photos/payment.png' %}" alt="Payment">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--== End Footer Bottom Area ==-->
+  </footer>
+  <!--== End Footer Area Wrapper ==-->
+
+  <!--== Scroll Top Button ==-->
+  <div id="scroll-to-top" class="scroll-to-top"><span class="ion-md-arrow-up"></span></div>
+
+  <!--== Start Side Menu ==-->
+  <aside class="off-canvas-wrapper">
+    <div class="off-canvas-inner">
+      <div class="off-canvas-overlay"></div>
+      <!-- Start Off Canvas Content Wrapper -->
+      <div class="off-canvas-content">
+        <!-- Off Canvas Header -->
+        <div class="off-canvas-header">
+          <div class="close-action">
+            <button class="btn-menu-close">menu<i class="icon-arrow-left"></i></button>
+          </div>
+        </div>
+
+        <div class="off-canvas-item">
+          <!-- Start Mobile Menu Wrapper -->
+          <div class="res-mobile-menu menu-active-one">
+            <!-- Note Content Auto Generate By Jquery From Main Menu -->
+          </div>
+          <!-- End Mobile Menu Wrapper -->
+        </div>
+      </div>
+      <!-- End Off Canvas Content Wrapper -->
+    </div>
+  </aside>
+  <!--== End Side Menu ==-->
+
+  <!--== Start Popup Product  ==-->
+  <div class="popup-product-quickview">
+    <div class="product-single-item">
+      <div class="row">
+        <div class="col-md-6">
+          <!--== Start Product Thumbnail Area ==-->
+          <div class="product-thumb">
+            <div class="swiper-container single-product-thumb-content single-product-thumb-slider">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <a href="#">
+                    <img src="{% static 'shop/img/shop/product-single/05.jpg' %}" alt="Image-HasTech">
+                    <span class="product-flag-new">New</span>
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="#">
+                    <img src="{% static 'shop/img/shop/product-single/06.jpg' %}" alt="Image-HasTech">
+                    <span class="product-flag-new">New</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-container single-product-nav-content single-product-nav-slider">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img src="{% static 'shop/img/shop/product-single/nav-05.jpg' %}" alt="Image-HasTech">
+                </div>
+                <div class="swiper-slide">
+                  <img src="{% static 'shop/img/shop/product-single/nav-06.jpg' %}" alt="Image-HasTech">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--== End Product Thumbnail Area ==-->
+        </div>
+        <div class="col-md-6">
+          <!--== Start Product Info Area ==-->
+          <div class="product-single-info mt-sm-70">
+            <h1 class="title">Water And Wind Resistant Insulated Jacket</h1>
+            <div class="product-info">
+              <div class="star-content">
+                <i class="ion-md-star"></i>
+                <i class="ion-md-star"></i>
+                <i class="ion-md-star"></i>
+                <i class="ion-md-star"></i>
+                <i class="ion-md-star icon-color-gray"></i>
+              </div>
+              <ul class="comments-advices">
+                <li><a href="#" class="reviews"><i class="fa fa-commenting-o"></i>Read reviews (1)</a></li>
+                <li><a href="#" class="comment"><i class="fa fa-pencil-square-o"></i>Write a review</a></li>
+              </ul>
+            </div>
+            <div class="prices">
+              <span class="price">€14.52</span>
+              <div class="tax-label">Tax included</div>
+            </div>
+            <div class="product-description">
+              <ul class="product-desc-list">
+                <li>Stay ready for a change in weather with the IZOD® Water and Wind Resistant Insulated Jacket.</li>
+                <li>Water-resistant jacket keeps you warm and dry.</li>
+                <li>Stand collar features an attached hood.</li>
+                <li>Front-zip closure.</li>
+              </ul>
+            </div>
+            <div class="product-quick-action">
+              <div class="product-quick-qty">
+                <div class="pro-qty">
+                  <input type="text" id="quantity" title="Quantity" value="1">
+                </div>
+              </div>
+              <a class="btn-product-add" href="single-product.html">Add to cart</a>
+            </div>
+            <div class="product-wishlist-compare">
+              <a href="#" class="btn-wishlist"><i class="icon-heart"></i>Add to wishlist</a>
+              <a href="#" class="btn-compare"><i class="icon-shuffle"></i>Add to compare</a>
+            </div>
+            <div class="social-sharing">
+              <span>Share</span>
+              <div class="social-icons">
+                <a href="#"><i class="la la-facebook"></i></a>
+                <a href="#"><i class="la la-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+          <!--== End Product Info Area ==-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="popup-product-overlay"></div>
+  <button class="popup-product-close"><i class="la la-close"></i></button>
+  <!--== End Popup Product  ==-->
+</div>
+
+<!--=======================Javascript============================-->
+
+<!--=== Modernizr Min Js ===-->
+<script src="{% static 'shop/js/modernizr.js' %}"></script>
+<!--=== jQuery Min Js ===-->
+<script src="{% static 'shop/js/jquery-main.js' %}"></script>
+<!--=== jQuery Migration Min Js ===-->
+<script src="{% static 'shop/js/jquery-migrate.js' %}"></script>
+<!--=== Popper Min Js ===-->
+<script src="{% static 'shop/js/popper.min.js' %}"></script>
+<!--=== Bootstrap Min Js ===-->
+<script src="{% static 'shop/js/bootstrap.min.js' %}"></script>
+<!--=== jQuery Appear Js ===-->
+<script src="{% static 'shop/js/jquery.appear.js' %}"></script>
+<!--=== jQuery Swiper Min Js ===-->
+<script src="{% static 'shop/js/swiper.min.js' %}"></script>
+<!--=== jQuery Fancy Box Min Js ===-->
+<script src="{% static 'shop/js/fancybox.min.js' %}"></script>
+<!--=== jQuery Slick Nav Js ===-->
+<script src="{% static 'shop/js/slicknav.js' %}"></script>
+<!--=== jQuery Waypoints Js ===-->
+<script src="{% static 'shop/js/waypoints.js' %}"></script>
+<!--=== jQuery Owl Carousel Min Js ===-->
+<script src="{% static 'shop/js/owlcarousel.min.js' %}"></script>
+<!--=== jQuery Match Height Min Js ===-->
+<script src="{% static 'shop/js/jquery-match-height.min.js' %}"></script>
+<!--=== jQuery Zoom Min Js ===-->
+<script src="{% static 'shop/js/jquery-zoom.min.js' %}"></script>
+<!--=== Countdown Js ===-->
+<script src="{% static 'shop/js/countdown.js' %}"></script>
+<!--=== Custom Js ===-->
+<script src="{% static 'shop/js/custom.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,271 @@
+/*
+-----------------------------------------------------------------------
+	Home Slider CSS
+-----------------------------------------------------------------------
+*/
+
+.home-slider-area {
+	.home-slider-container {
+		.home-slider-wrapper {
+			position: relative;
+
+			&.slider {
+				&-default {
+					.swiper-slide {
+						&-active {
+							.slider-content-area {
+								.slider-content {
+									&.animate-pulse {
+										.sub-title,
+										.title,
+										.btn-slide {
+											-webkit-animation-name: pulse;
+											animation-name: pulse;
+											-webkit-animation-timing-function: ease-in-out;
+											animation-timing-function: ease-in-out;
+											animation-fill-mode: both;
+											-webkit-animation-fill-mode: both;
+											opacity: 1;
+										}
+									}
+
+									&.animate-flipInX {
+										.sub-title,
+										.title,
+										.btn-slide {
+											-webkit-backface-visibility: visible !important;
+											backface-visibility: visible !important;
+											-webkit-animation-name: flipInX;
+											animation-name: flipInX;
+											animation-fill-mode: both;
+											-webkit-animation-fill-mode: both;
+											opacity: 1;
+										}
+									}
+
+									&.animate-jackInTheBox {
+										.sub-title,
+										.title,
+										.btn-slide {
+											-webkit-animation-name: jackInTheBox;
+											animation-name: jackInTheBox;
+											opacity: 1;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					.transition-slide-0 {
+						-webkit-animation-duration: 1s;
+						animation-duration: 1s
+					}
+					.transition-slide-1 {
+						-webkit-animation-duration: 1.3s;
+						animation-duration: 1.3s
+					}
+					.transition-slide-2 {
+						-webkit-animation-duration: 1.6s;
+						animation-duration: 1.6s
+					}
+					.transition-slide-3 {
+						-webkit-animation-duration: 1.9s;
+						animation-duration: 1.9s
+					}
+					.transition-slide-4 {
+						-webkit-animation-duration: 2.2s;
+						animation-duration: 2.2s
+					}
+
+					.slider-content-area {
+						background-size: cover;
+						background-repeat: no-repeat;
+						background-position: left center;
+						display: flex;
+						align-items: center;
+						height: 783px;
+						left: 0;
+						top: 0;
+						position: relative;
+						width: 100%;
+						@media (max-width: 1799px) {
+							background-position: right;
+							height: 600px;
+						}
+						@media #{$lg-device} {
+							height: 520px;
+						}
+						@media #{$md-device} {
+							height: 420px;
+						}
+						@media #{$sm-device} {
+							height: 460px;
+						}
+						@media #{$xxs-device} {
+							height: 340px;
+						}
+
+						.slider-content {
+							margin-left: 62px;
+							pointer-events: auto;
+							@media (max-width: 1799px) {
+								margin-left: 0;
+							}
+
+							.sub-title {
+								color: $black-20;
+								font-size: 20px;
+								font-weight: $font-weight-normal;
+								line-height: 1;
+								margin-bottom: 18px;
+								text-transform: uppercase;
+								@media #{$xxl-device} {
+									font-size: 16px;
+								}
+							}
+
+							.title {
+								color: $black-0f;
+								font-size: 72px;
+								font-weight: $font-weight-bold;
+								line-height: 1;
+								text-transform: uppercase;
+								@media #{$xxl-device} {
+									font-size: 60px;
+								}
+								@media #{$lg-device} {
+									font-size: 50px;
+								}
+								@media #{$md-device} {
+									font-size: 40px;
+								}
+								@media #{$xxs-device} {
+									font-size: 30px;
+								}
+
+								+ {
+									.title {
+									    @media #{$sm-device} {
+									    	margin-bottom: 0;
+									    }
+									}
+								}
+							}
+
+							.btn-slide {
+								background-color: $theme-color;
+								border-radius: 50px;
+								color: $white;
+								display: inline-block !important;
+								font-size: 14px;
+								font-weight: 700;
+								height: 50px;
+								line-height: 50px;
+								margin-top: 34px;
+								position: relative;
+								padding: 0 35px;
+								text-transform: uppercase;
+								@include transition(all .3s ease-out);
+								@media #{$xxl-device} {
+									margin-top: 4px;
+								}
+								@media #{$lg-device} {
+									font-size: 12px;
+									height: 40px;
+									line-height: 40px;
+								}
+
+								&:hover {
+									background-color: $black-0f;
+								}
+							}
+
+							.sub-title,
+							.title,
+							.btn-slide {
+								opacity: 0;
+							}
+
+							&-light {
+								.sub-title {
+									color: $white;
+								}
+
+								.title {
+									color: $white;
+								}
+
+								.btn-slide {
+									background-color: $white;
+									color: $black-0f;
+
+									&:hover {
+										color: $white;
+										background-color: $theme-color;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&.swiper-pagination-style {
+			.swiper-pagination {
+				bottom: 30px;
+				display: inline-block;
+				line-height: 1;
+				left: 50%;
+				margin: 0;
+				padding: 0;
+				position: absolute;
+				text-align: center;
+				@include translate(-50%, 0px);
+				z-index: 8;
+
+				span {
+					background: transparent;
+					border-width: 1px;
+					border-style: solid;
+					border-color: #9f9f9f;
+					border-radius: 50%;
+					cursor: pointer;
+					display: inline-block;
+					font-size: 0;
+					height: 14px;
+					margin: 0 5px;
+					opacity: 1;
+					@include transition(all .3s ease-out);
+					width: 14px;
+
+					@media #{$lg-device} {
+						height: 10px;
+						margin: 0 2px;
+						width: 10px;
+					}
+
+					&.swiper-pagination-bullet-active {
+						background-color: $theme-color;
+						border-color: $theme-color;
+					}
+				}
+			}
+
+			&.dots-bg-light {
+				.swiper-pagination {
+					span {
+						background-color: $white;
+						border-color: $white;
+
+						&.swiper-pagination-bullet-active {
+							background-color: $theme-color;
+							border-color: $theme-color;
+						}
+					}
+				}
+			}
+		}
+	}
+}

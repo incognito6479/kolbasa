@@ -1,0 +1,140 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Список перемещения</h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'movement_list' %}" method="GET">
+            <input id="id_page_number" name="page" type="hidden"
+                   {% if selected_page %}value="{{ selected_page }}"{% endif %}>
+            <div class="row w-100">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label for="">Статус</label>
+                    <select class="form-control" name="status">
+                        <option value {% if not status %}selected{% endif %}>Все</option>
+                        <option value="created" {% if status == 'created' %}selected{% endif %}>В обработке</option>
+                        <option value="completed" {% if status == 'completed' %}selected{% endif %}>Принято</option>
+                        <option value="rejected" {% if status == 'rejected' %}selected{% endif %}>Отменен</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 mt-sm-3 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                    <a href="{% url 'movement_create' %}" class="btn btn-outline-primary ml-2">
+                        Переместить
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата перемещение</strong></th>
+                        <th><strong>Пользователь</strong></th>
+                        <th><strong>Со склада</strong></th>
+                        <th><strong>В склад</strong></th>
+                        <th><strong>Сумма перемещение</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Действия</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for item in movements %}
+                        <tr style="cursor: pointer" onclick="location.href='{% url "movement_detail" item.id %}'">
+                            <td><strong>{{ item.id }}</strong></td>
+                            <td>{{ item.created }}</td>
+                            <td>{{ item.user }}</td>
+                            <td>{{ item.from_warehouse }}</td>
+                            <td>{{ item.to_warehouse }}</td>
+                            <td>{{ item.total }}</td>
+                            <td>{{ item.get_status_display }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <a href="{% url 'movement_update' item.id %}"
+                                       class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
+                                    <form method="POST" action="#">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="DELETE">
+                                        <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i
+                                                class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer d-flex">
+            <div class="mr-auto ml-auto">
+                <nav aria-label="Page navigation example">
+                    {% if is_paginated %}
+                        {% if page_obj.has_previous %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val(1); $('#sort-filter').submit()">First
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.previous_page_number }}); $('#sort-filter').submit()">
+                                Previous
+                            </button>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <button class="btn btn-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <button class="btn btn-outline-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.number|add:'1' }}); $('#sort-filter').submit()">
+                                Next
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.paginator.page_range|last }}); $('#sort-filter').submit()">
+                                Last
+                            </button>
+                        {% endif %}
+
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

@@ -1,0 +1,870 @@
+/*
+-----------------------------------------------------------------------
+  Common CSS
+-----------------------------------------------------------------------
+*/
+
+/*-------- Background Style Css --------*/
+.bg-img {
+  background: no-repeat center center;
+  background-size: cover;
+
+  &-tr {
+    background: no-repeat top right;
+  }
+
+  &-tl {
+    background: no-repeat top left;
+  }
+
+  &-br {
+    background: no-repeat bottom right;
+  }
+
+  &-bl {
+    background: no-repeat bottom left;
+  }
+
+  &-nr {
+    background: no-repeat center center;
+    background-size: contain;
+  }
+
+  &-rc {
+    background: no-repeat;
+    background-size: contain;
+  }
+}
+
+/*-------- Container Style Css --------*/
+.container {
+  @media #{$xxlm-down-device} {
+    max-width: 1440px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  @media #{$xl-device} {
+    max-width: none;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+  & > [class*=col-] {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+/*-------- Gutter Style Css --------*/
+.no-gutter {
+  margin-right: 0;
+  margin-left: 0;
+  [class*=col-] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.row-gutter-45 {
+  margin-right: -22.5px;
+  margin-left: -22.5px;
+  [class*=col-] {
+    padding-left: 22.5px;
+    padding-right: 22.5px;
+  }
+}
+
+.row-gutter-20 {
+  margin-right: -10px;
+  margin-left: -10px;
+  [class*=col-] {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/*-------- Spacing Style Css --------*/
+section {
+  .container,
+  .container-fluid {
+    padding-bottom: 82px;
+    padding-top: 82px;
+    @media #{$lg-device} {
+      padding-bottom: 70px;
+      padding-top: 70px;
+    }
+  }
+}
+
+.spacingX-90 {
+  @media (min-width: 1920px){
+    padding: 0 90px;
+  }
+}
+
+/*-------- Hover Style Css --------*/
+.thumb {
+  &-scale-hover-style {
+    position: relative;
+    overflow: hidden;
+
+    .hover-img {
+      @include transition(all .3s ease-out);
+      width: 100%;
+    }
+
+    &:hover {
+      .hover-img {
+        @include transform(scale(1.045) rotate(0.05deg))
+      }
+    }
+  }
+}
+
+.zoomImg {
+  cursor: crosshair;
+  pointer-events: none;
+}
+
+/*-------- Button Style Css --------*/
+.btn-theme {
+  background-color: $theme-color;
+  border: none;
+  border-radius: 30px;
+  color: $white;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: $font-weight-bold;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 30px;
+  position: relative;
+  text-transform: uppercase;
+
+  &.btn-white {
+    background-color: $white;
+    color: #253237;
+  }
+}
+
+/*-------- Page Header Style Css --------*/
+.page-header-area {
+  padding: 92px 0 89px;
+}
+
+.page-header-content {}
+
+.breadcrumb-area {
+  margin-bottom: 0;
+
+  .breadcrumb {
+    background-color: transparent;
+    display: block;
+    flex-wrap: unset;
+    letter-spacing: 0;
+    margin-bottom: 0;
+    padding: 0;
+
+    li {
+      color: $theme-color;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: $font-weight-light;
+      line-height: 20px;
+      position: relative;
+      @media #{$lg-device} {
+        font-size: 14px;
+      }
+
+      a {
+        color: $black-666;
+
+        &:hover {
+          color: $theme-color;
+        }
+      }
+    }
+
+    .breadcrumb-sep {
+      font-size: 14px;
+      color: $black-666;
+      margin: 0 10px;
+      vertical-align: -1px;
+    }
+  }
+}
+
+/*-------- Login Account Style Css --------*/
+.login-form-content {
+  border: 1px solid #ebebeb;
+  padding: 31px 15px 20px;
+
+  .login-form {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .pass-content {
+      display: flex;
+      justify-content: space-between;
+
+      .show-pass {
+        background-color: #7a7a7a;
+        color: $white;
+        cursor: pointer;
+        font-size: 11px;
+        height: 35px;
+        line-height: 35px;
+        text-transform: uppercase;
+        text-align: center;
+        width: 66px;
+      }
+    }
+
+    label {
+      color: $black-0f;
+      font-size: 13px;
+      font-weight: $font-weight-light;
+      padding-top: 12px;
+      text-align: left;
+    }
+
+    .form-control {
+      background-color: $white;
+      border: 1px solid #ebebeb;
+      border-radius: 0;
+      box-shadow: none;
+      color: $black-0f;
+      font-size: 14px;
+      font-weight: $font-weight-light;
+      height: 35px;
+      padding: 5px 16px;
+
+      @include placeholder {
+        color: $black-999;
+      }
+    }
+
+    .btn {
+      &-forgot {
+        color: $black-555;
+        display: block;
+        font-size: 14px;
+        font-weight: 300;
+        margin-bottom: 14px;
+
+        &:hover {
+          color: $theme-color;
+        }
+      }
+
+      &-signin {
+        background: $black-0f;
+        color: $white;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 25px;
+        padding: 5px 20px;
+        border-radius: 5px;
+        display: inline-block;
+        text-transform: capitalize;
+
+        &:hover {
+          background-color: $theme-color;
+        }
+      }
+    }
+  }
+
+  .btn-create-account {
+    color: $black-555;
+    font-size: 14px;
+    font-weight: $font-weight-light;
+    display: block;
+    line-height: 1;
+    margin-top: 22px;
+    text-align: center;
+
+    &:hover {
+      color: $theme-color;
+    }
+  }
+}
+
+/*-------- Register Style Css --------*/
+.register-form-content {
+  border: 1px solid #ebebeb;
+  padding: 17px 15px 17px;
+
+  .register-form {
+    .login-account {
+      color: $black-0f;
+      font-weight: $font-weight-light;
+
+      a {
+        color: $black-0f;
+
+        &:hover {
+          color: $theme-color;
+        }
+      }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-check {
+      display: inline-block;
+
+      .form-check-input {
+        box-shadow: none;
+        display: inline-block;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid #7a7a7a;
+        background: #fff;
+
+        &:checked {
+          &:before {
+            background-color: #2fb5d2;
+            border-radius: 50%;
+            content: "";
+            left: 50%;
+            height: calc(100% - 4px);
+            position: absolute;
+            top: 50%;
+            @include translate(-50%, -50%);
+            width: calc(100% - 4px);
+          }
+        }
+      }
+
+      .form-check-label {
+        padding: 0; 
+        line-height: 1;
+        vertical-align: -3px;
+        font-size: 14px;
+        margin-left: 2px;
+      }
+    }
+
+    .pass-content {
+      display: flex;
+      justify-content: space-between;
+
+      .show-pass {
+        background-color: #7a7a7a;
+        color: $white;
+        cursor: pointer;
+        font-size: 11px;
+        height: 35px;
+        line-height: 35px;
+        text-transform: uppercase;
+        text-align: center;
+        width: 66px;
+      }
+    }
+
+    label {
+      color: $black-0f;
+      font-size: 13px;
+      font-weight: $font-weight-light;
+      padding-top: 12px;
+      text-align: left;
+    }
+
+    .form-control {
+      background-color: $white;
+      border: 1px solid #ebebeb;
+      border-radius: 0;
+      box-shadow: none;
+      color: $black-0f;
+      font-size: 14px;
+      font-weight: $font-weight-light;
+      height: 35px;
+      line-height: 35px;
+      padding: 8px 16px 5px;
+
+      @include placeholder {
+        color: $black-999;
+      }
+    }
+
+    .optional-label {
+      font-size: 14px;
+      font-weight: $font-weight-light;
+      color: #7a7a7a;
+      height: 35px;
+      display: inline-block;
+      line-height: 35px;
+    }
+
+    .birth-date {
+      color: #7a7a7a;
+      font-size: 13px;
+      margin-top: 2px;
+      font-weight: $font-weight-light;
+      display: block;
+    }
+  }
+
+  .account-checkbox {
+    .form-check {
+      cursor: pointer;
+      margin-bottom: 23px;
+
+      .form-check-input {
+        box-shadow: none;
+        border-radius: 0;
+        border: 2px solid #232323;
+        cursor: pointer;
+
+        &:checked {
+          box-shadow: none;
+          border-radius: 0;
+          border: 2px solid #232323;
+          background-color: #232323;
+        }
+      }
+
+      .form-check-label {
+        color: $black-0f;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .btn-save {
+    background: $black-0f;
+    color: $white;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 25px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    text-transform: capitalize;
+
+    &:hover {
+      background-color: $theme-color;
+    }
+  }
+}
+
+/*-------- Account Style Css --------*/
+.account-item {
+  .account-inner {
+    a {
+      border: 1px solid #ebebeb;
+      display: block;
+      padding: 19px 15px 15px;
+      text-align: center;
+
+      i,
+      span {
+        display: block;
+      }
+
+      i {
+        color: #232323;
+        font-size: 35px;
+        margin-bottom: 18px;
+        @include transition(all .3s ease-out);
+      }
+
+      span {
+        color: #7a7a7a;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        @include transition(all .3s ease-out);
+      }
+
+      &:hover {
+        i {
+          color: $theme-color;
+        }
+
+        span {
+          color: #232323;
+        }
+      }
+    }
+  }
+}
+
+/*-------- Pagination Style Css --------*/
+.pagination-content-wrap {
+  margin-top: 44px;
+  
+  .pagination-nav {
+    .pagination {
+      li {
+        margin-right: 5px;
+
+        a {
+          background-color: $white-f6;
+          border-radius: 50%;
+          color: $black-0f;
+          display: inline-block;
+          font-size: 14px;
+          font-weight: $font-weight-normal;
+          height: 36px;
+          line-height: 39px;
+          padding: 0;
+          text-align: center;
+          vertical-align: top;
+          width: 36px;
+
+          &.active {
+            color: $white;
+            background-color: $theme-color;
+          }
+
+          &:hover {
+            color: $white;
+            background-color: $theme-color;
+          }
+        }
+
+        i {
+          font-size: 10px;
+          font-weight: 700;
+        }
+
+        &:last-child {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+/*-------- Owl Carousel Style Css --------*/
+.owl-carousel {
+  .owl-item {
+    @include transition(all .3s ease-out);
+    z-index: 0;
+
+    &:not(.active) {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    &:hover {
+      z-index: 1;
+    }
+  }
+
+  .product-slider {
+    .owl-stage-outer {
+      margin: -25px 0 -105px 0;
+      padding: 25px 0 105px 0;
+    }
+  }
+
+  .owl-stage-outer {
+    overflow: visible;
+    position: relative;
+    width: 100%;
+  }
+
+  .owl-nav {
+    margin: 0;
+    & > [class*=owl-] {
+      background-color: $white !important;
+      box-shadow: 0 3px 25.5px 4.5px rgba($black, .06);
+      border-radius: 50%;
+      color: $black-0f !important;
+      cursor: pointer;
+      display: inline-block;
+      height: 50px;
+      margin: -14px 0 0 0;
+      position: absolute;
+      top: 50%;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      width: 50px;
+      @include translate(0px, -50%);
+      @include transition(all .5s ease-out);
+      z-index: 1;
+      @media #{$sm-device} {
+        height: 40px;
+        width: 40px;
+      }
+
+      &:before {
+        color: $black-0f;
+        font-size: 18px;
+        line-height: 50px;
+        display: block;
+        font-family: 'Line Awesome Free';
+        font-weight: 900;
+        @include transition(all .5s ease-out);
+        @media #{$sm-device} {
+          font-size: 14px;
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+        }
+      }
+
+      span {
+        display: none;
+      }
+
+      &:hover {
+        background-color: $theme-color !important;
+        color: $white !important;
+        &:before {
+          color: $white;
+        }
+      }
+    }
+
+    .owl-prev {
+      left: -25px;
+      @media #{$xxl-device} {
+        left: 5px;
+      }
+
+      &:before {
+        content: "\f104";
+      }
+    }
+
+    .owl-next {
+      right: -25px;
+      @media #{$xxl-device} {
+        right: 5px;
+      }
+
+      &:before {
+        content: "\f105";
+      }
+    }
+  }
+
+  &:hover {
+    .owl-nav {
+      & > [class*=owl-] {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+/*-------- Custom Font Style Css --------*/
+.font-weight-300 {
+  font-weight: $font-weight-light !important;
+}
+
+.font-weight-400 {
+  font-weight: $font-weight-normal !important;
+}
+
+.font-weight-600 {
+  font-weight: $font-weight-semi-bold !important;
+}
+
+.font-weight-700 {
+  font-weight: $font-weight-bold !important;
+}
+
+.font-weight-900 {
+  font-weight: $font-weight-black !important;
+}
+
+.fz-24 {
+  font-size: 24px;
+}
+
+.fz-28 {
+  font-size: 28px;
+}
+
+.fz-lg-22 {
+  @media #{$lg-device} {
+    font-size: 22px;
+  }
+}
+
+/*-------- Custom Color Style Css --------*/
+.bg-theme-color {
+  background-color: $theme-color !important;
+}
+
+.bg-black-color {
+  background-color: $black-0f !important;
+}
+
+.text-theme-color {
+  color: $theme-color !important;
+}
+
+.text-black {
+  color: $black-0f !important;
+}
+
+/*-------- Hidden Class Style Css --------*/
+.hidden-md {
+  &-up {
+    @media #{$md-up-device} {
+      display: none!important;
+    }
+  }
+
+  &-down {
+    @media #{$md-device} {
+      display: none!important;
+    }
+  }
+}
+
+.hidden-sm {
+  &-up {
+    @media #{$sm-up-device} {
+      display: none!important;
+    }
+  }
+
+  &-down {
+    @media #{$sm-device} {
+      display: none!important;
+    }
+  }
+}
+
+.z-index-1 {
+  z-index: 1 !important;
+}
+
+/*-------- Preloader Style Css --------*/
+.preloader-deactive {
+  .preloader-wrap {
+    display: none;
+  }
+}
+
+.preloader-wrap {
+  background-color: $white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 99999;
+  overflow: hidden;
+
+  .preloader {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    margin-left: -32px;
+    margin-top: -50px;
+    .dot {
+      height: 100%;
+      width: 100%;
+      display: block;
+      box-shadow: 0 0 20px 0 rgba(0,0,0,.15);
+      -webkit-box-shadow: 0 0 20px 0 rgba(0,0,0,.15);
+      -webkit-animation: la-rotateplane 1.2s infinite ease-in-out;
+      animation: la-rotateplane 1.2s infinite ease-in-out;
+      border-radius: 3px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      background-color: $theme-color;
+    }
+  }
+}
+
+@-webkit-keyframes la-rotateplane {
+  0% {
+      -webkit-transform: perspective(120px)
+  }
+
+  50% {
+      -webkit-transform: perspective(120px) rotateY(180deg)
+  }
+
+  100% {
+      -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+  }
+}
+
+@keyframes la-rotateplane {
+  0% {
+      transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  }
+
+  50% {
+      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  }
+
+  100% {
+      transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg)
+  }
+}
+
+/*-------- Scroll To Top Style Css --------*/
+.scroll-to-top {
+  box-shadow: 0 30px 50px rgba($black, .04);
+  bottom: -60px;
+  background-color: $theme-color;
+  color: $white;
+  position: fixed;
+  right: 50px;
+  display: block;
+  padding: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 26px;
+  line-height: 50px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  @include transition (all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1));
+  z-index: 999;
+  @media #{$md-device} {
+    font-size: 14px;
+    line-height: 44px;
+    width: 40px;
+    height: 40px;
+  }
+  @media (max-width:600px) {
+    font-size: 10px;
+    line-height: 35px;
+    width: 32px;
+    height: 32px;
+  }
+
+  &.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+    @media (max-width:600px) {
+      bottom: 20px;
+      right: 20px;
+    }
+  }
+}

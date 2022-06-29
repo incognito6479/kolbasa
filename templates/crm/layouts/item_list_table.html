@@ -1,0 +1,47 @@
+{% load custom_tags %}
+<table class="table table-responsive-md">
+    <thead>
+    <tr>
+        <th><strong>#</strong></th>
+        {% for item in view.model|get_table_headers:view.fields %}
+            <th><strong>{{ item }}</strong></th>
+        {% endfor %}
+        <th><strong>Действие</strong></th>
+
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for item in item_list %}
+        <tr>
+            <td><strong>{{ item.id }}</strong></td>
+            {% for field in view.fields %}
+                {% if item|getattribute:field|is_image %}
+                    <td><img src="/media/{{ item|getattribute:field }}" alt="" height="50"></td>
+                {% else %}
+                    <td>{{ item|getattribute:field|default:"-"|to_local }}</td>
+                {% endif %}
+            {% endfor %}
+            <td>
+                <div class="d-flex">
+                    <a href="{% url update_action item.id %}" class="btn btn-primary shadow btn-xs sharp mr-1"><i
+                            class="fa fa-pencil"></i></a>
+                    {% if delete_action %}
+                        <a href="{% url delete_action item.id %}" onclick="deleteConfirmation()"
+                           class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

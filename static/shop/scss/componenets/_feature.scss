@@ -1,0 +1,187 @@
+/*
+-----------------------------------------------------------------------
+	Feature CSS
+-----------------------------------------------------------------------
+*/
+
+.feature-area {
+	&.feature-about-area {
+		background-color: #efe3e2;
+		margin: 0;
+		.container {
+		    max-width: 1200px;
+		    padding-bottom: 75px;
+		    padding-top: 82px;
+		    @media #{$lg-device} {
+				padding-top: 70px;
+		    }
+		    @media #{$md-device} {
+				padding-bottom: 45px;
+		    }
+		}
+	}
+}
+
+.feature-icon-box {
+	.inner-content {
+		align-items: center;
+		display: flex;
+		padding: 46px 0;
+		@media #{$lg-device} {
+			border-bottom: 1px solid rgba($white, .3);
+		}
+
+		.icon-box {
+			border: 2px solid $white;
+			border-radius: 50%;
+			color: $white;
+			font-size: 40px;
+			height: 68px;
+			line-height: 66px;
+			margin-right: 15px;
+			position: relative;
+			text-align: center;
+			min-width: 68px;
+			@include transition(all .3s ease-out);
+
+			&:before {
+				border: 2px dashed $white;
+				content: "";
+				position: absolute;
+				top: -2px;
+				left: -2px;
+				right: -2px;
+				bottom: -2px;
+				border-radius: 100%;
+				z-index: 10;
+				opacity: 0;
+				-webkit-animation: spinAround 9s linear infinite;
+				-moz-animation: spinAround 9s linear infinite;
+				animation: spinAround 9s linear infinite;
+				@include scale(0);
+				@include transition(all .3s ease-out);
+			}
+		}
+
+		.content {
+			margin-top: 5px;
+
+			.title {
+				color: $white;
+				font-size: 16px;
+				line-height: 1;
+				margin-bottom: 5px;
+				text-transform: uppercase;
+			}
+			p {
+				color: $white;
+				font-size: 14px;
+				line-height: 1;
+			}
+		}
+
+		&:hover {
+			.icon-box {
+				border: 2px solid transparent;
+
+				&:before {
+					opacity: 1;
+					@include scale(1);
+				}
+			}
+		}
+	}
+}
+
+.feature-icon-box-style2 {
+	.inner-content {
+		position: relative;
+		padding-left: 100px;
+		@media #{$lg-device} {
+			padding-left: 85px;
+		}
+		@media #{$md-device} {
+			margin-bottom: 30px;
+		}
+		@media #{$sm-device} {
+			margin-bottom: 42px;
+		}
+
+		.icon-box {
+			border: 3px solid rgba($theme-color, .6);
+			border-radius: 50%;
+			height: 80px;
+			line-height: 75px;
+			left: 0;
+			position: absolute;
+			top: 0;
+			text-align: center;
+			@include transition(all .3s ease-out);
+			width: 80px;
+			@media #{$lg-device} {
+				height: 70px;
+				line-height: 62px;
+				width: 70px;
+			}
+
+			&:before {
+				border: 3px dashed rgba($theme-color, .6);
+				content: "";
+				position: absolute;
+				top: -3px;
+				left: -3px;
+				right: -3px;
+				bottom: -3px;
+				border-radius: 50%;
+				z-index: 10;
+				opacity: 0;
+				-webkit-animation: spinAround 9s linear infinite;
+				-moz-animation: spinAround 9s linear infinite;
+				animation: spinAround 9s linear infinite;
+				@include scale(0);
+				@include transition(all .3s ease-out);
+			}
+
+			.icon-img {
+				@media #{$lg-device} {
+					width: 30px;
+				}
+			}
+		}
+
+		.content {
+			.title {
+				font-size: 24px;
+				font-weight: $font-weight-semi-bold;
+				@media #{$lg-device} {
+					font-size: 18px;
+					margin-bottom: 5px;
+				}
+			}
+			p {
+				color: #6d6d6d;
+				font-size: 16px;
+				@media #{$lg-device} {
+					font-size: 14px;
+					line-height: 1.4;
+				}
+				br {
+					@media #{$lg-device} {
+						display: none;
+					}
+				}
+			}
+		}
+
+		&:hover {
+			.icon-box {
+				border: 3px solid transparent;
+
+				&:before {
+					opacity: 1;
+					@include scale(1);
+				}
+			}
+		}
+	}
+}

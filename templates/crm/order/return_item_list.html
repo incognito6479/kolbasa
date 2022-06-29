@@ -1,0 +1,213 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Список возвращённых товаров</h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'return_items' %}" method="GET">
+            <input id="id_page_number" name="page" type="hidden"
+                   {% if selected_page %}value="{{ selected_page }}"{% endif %}>
+            <div class="row w-100">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label for="">Статус</label>
+                    <select class="form-control" name="status">
+                        <option value {% if not status %}selected{% endif %}>---</option>
+                        <option value="created" {% if status == 'created' %}selected{% endif %}>Создан</option>
+                        <option value="acceptance" {% if status == 'acceptance' %}selected{% endif %}>Принятие</option>
+                        <option value="write-off" {% if status == 'write-off' %}selected{% endif %}>Списание</option>
+                        <option value="rejected" {% if status == 'rejected' %}selected{% endif %}>Отменен</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 mt-sm-3 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Товарь</strong></th>
+                        <th><strong>Дата создание</strong></th>
+                        <th><strong>Контрагент</strong></th>
+                        <th><strong>Доставщик</strong></th>
+                        <th><strong>Кол.</strong></th>
+                        <th><strong>Спис/Прин. кол.</strong></th>
+                        <th><strong>Цена</strong></th>
+                        <th><strong>Сумма</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Действие</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for return_item in return_items %}
+                        <tr>
+                            <td><strong>{{ return_item.id }}</strong></td>
+                            <td>{{ return_item.warehouse_product.product.title }}</td>
+                            <td>{{ return_item.created|date:'d.m.Y H:i' }}</td>
+                            <td>{{ return_item.counter_party.full_name }}</td>
+                            <td>{{ return_item.deliver.user.fullname|default:return_item.deliver.user.username }}</td>
+                            <td>{{ return_item.count }} {{ return_item.warehouse_product.product.get_unit_type_display }}</td>
+                            <td>{% if return_item.status == 'write-off' %}{{ return_item.write_off_count }}/
+                                {{ return_item.returned_count }}{% else %} - {% endif %}</td>
+                            <td>{{ return_item.price|to_local }}</td>
+                            <td>{{ return_item.total|to_local }}</td>
+                            <td>{{ return_item.get_status_display }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    {% if not return_item.status == 'rejected' %}
+                                        <button type="button" onclick="openReturnItemModal(this)"
+                                                data-id="{{ return_item.id }}"
+                                                data-count="{{ return_item.count }}"
+                                                data-name="{{ return_item.warehouse_product.product.title }} | {{ return_item.warehouse_product.product.get_unit_type_display }}"
+                                                class="btn btn-success shadow btn-xs sharp mr-1"><i
+                                                class="fa fa-arrow-down"></i></button>
+                                    {% endif %}
+                                    <form method="POST" action="{% url 'return_items_action' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="reject_return_items">
+                                        <input type="hidden" name="return_item_id" value="{{ return_item.id }}">
+                                        <button type="submit"
+                                                class="btn {% if not return_item.status == 'rejected' %}btn-danger{% else %}btn-success{% endif %} shadow btn-xs sharp">
+                                            <i
+                                                    class="fa {% if not return_item.status == 'rejected' %}fa-trash{% else %} fa-arrow-circle-o-left{% endif %}"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer d-flex">
+            <div class="mr-auto ml-auto">
+                <nav aria-label="Page navigation example">
+                    {% if is_paginated %}
+                        {% if page_obj.has_previous %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val(1); $('#sort-filter').submit()">First
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.previous_page_number }}); $('#sort-filter').submit()">
+                                Previous
+                            </button>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <button class="btn btn-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <button class="btn btn-outline-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.number|add:'1' }}); $('#sort-filter').submit()">
+                                Next
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.paginator.page_range|last }}); $('#sort-filter').submit()">
+                                Last
+                            </button>
+                        {% endif %}
+
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <!-- Modal -->
+    <div class="modal fade" id="returnItemModal" tabindex="-1"
+         aria-labelledby="returnItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" action="{% url 'return_items_action' %}" class="modal-content">
+                <div class="modal-header">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="write_off_return_items">
+                    <input type="hidden" id="modal_return_item_id" name="return_item_id" value>
+                    <input type="hidden" id="modal_return_item_count" name="return_item_count" value>
+                    <h5 class="modal-title"
+                        id="returnItemModalLabel">Списание возвращенного товара (<span
+                            id="write_off_product_name"></span>)</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label for="id_write-off_count">Количество списываемых товаров</label>
+                        <input id="id_write-off_count" class="form-control" onchange="changeReturnItemCount()"
+                               type="number" step="any" name="write_off" required value="0" min="0">
+                    </div>
+                    <div>
+                        <label for="id_returned_count">Количество возвращаемых товаров в склад</label>
+                        <input id="id_returned_count" class="form-control" type="number" step="any"
+                               name="returned_count" readonly value="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success float-right">Списать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function openReturnItemModal(elem) {
+            let return_item_id = elem.getAttribute('data-id');
+            let return_item_count = elem.getAttribute('data-count');
+            let return_item_name = elem.getAttribute('data-name');
+
+            document.getElementById('modal_return_item_id').value = return_item_id;
+            document.getElementById('write_off_product_name').textContent = return_item_name;
+            document.getElementById('modal_return_item_count').value = return_item_count;
+
+            document.getElementById('id_write-off_count').value = return_item_count;
+            document.getElementById('id_write-off_count').setAttribute('max', return_item_count);
+            document.getElementById('id_returned_count').value = 0;
+
+            $('#returnItemModal').modal('show');
+        }
+
+        function changeReturnItemCount() {
+            let total_count = document.getElementById('modal_return_item_count').value;
+            let write_off_count = document.getElementById('id_write-off_count').value;
+
+            document.getElementById('id_returned_count').value = +total_count - +write_off_count
+        }
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

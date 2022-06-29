@@ -1,0 +1,82 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4> Отчет по продуктам</h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'product_report' %}" method="GET">
+            <div class="row w-100">
+                <div class="col-12 col-md-5">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-5">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-2 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Отчет по продуктам на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} -
+                    {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Наименование</strong></th>
+                        <th><strong>Категория</strong></th>
+                        <th><strong>Склад</strong></th>
+                        <th><strong>Общое кол. прихода</strong></th>
+                        <th><strong>Общое кол. возврата</strong></th>
+                        <th><strong>Общое кол. оптовой продажи</strong></th>
+                        <th><strong>Общое кол. розничной продажи</strong></th>
+                        <th><strong>Итог за период</strong></th>
+                        <th><strong>Кол. в складе</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for warehouse_product in warehouse_products %}
+                        <tr>
+                            <td><strong>{{ warehouse_product.id }}</strong></td>
+                            <td><a href="{% url 'product_detail_report' warehouse_product.id %}">{{ warehouse_product.product.title }}</a></td>
+                            <td>{{ warehouse_product.product.category.title }}</td>
+                            <td>{{ warehouse_product.warehouse }}</td>
+                            <td>{{ warehouse_product.income_total|default:0|to_local }}</td>
+                            <td>{{ warehouse_product.return_item_total|default:0|to_local }}</td>
+                            <td>{{ warehouse_product.invoice_total|default:0|to_local }}</td>
+                            <td>{{ warehouse_product.retail_order_total|default:0|to_local }}</td>
+                            <td>{{ 0|plus:warehouse_product.return_item_total|default:0|plus:warehouse_product.income_total|default:0|minus:warehouse_product.retail_order_total|default:0|minus:warehouse_product.invoice_total|default:0|to_local }}</td>
+                            <td>{{ warehouse_product.count }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

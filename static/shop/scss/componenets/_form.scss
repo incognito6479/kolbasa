@@ -1,0 +1,58 @@
+/*
+-----------------------------------------------------------------------
+    Form CSS
+-----------------------------------------------------------------------
+*/
+
+.contact-form {
+  .form-group {
+      margin-bottom: 20px;
+    .form-control {
+      border: 1px solid #e7e2dc;
+      box-shadow: none;
+      border-radius: 0;
+      color: $black;
+      font-size: 15px;
+      font-weight: 400;
+      height: 55px;
+      line-height: 55px;
+      padding: 8px 24px;
+      @include transition(all .3s ease-out);
+      &:active,
+      &:focus {
+        border-color: $theme-color;
+      }
+      @include placeholder {
+        font-size: 15px;
+        color: #52565b;
+      }
+    }
+
+    textarea {
+      &.form-control {
+        height: 250px;
+        @media #{$lg-device} {
+          height: 198px;
+        }
+        @media #{$sm-device} {
+          height: 160px;
+        }
+      }
+    }
+    .btn-theme {
+      font-weight: 500;
+      font-size: 16px;
+      height: 60px;
+      line-height: 60px;
+      margin-top: 21px;
+      padding: 0px 49px;
+      line-height: 63px;
+      text-transform: capitalize;
+      @include transition(all .3s ease-out);
+      &:hover {
+        background-color: $black;
+        border-color: $black;
+      }
+    }
+  }
+}

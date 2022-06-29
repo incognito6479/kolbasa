@@ -1,0 +1,25 @@
+/*
+-----------------------------------------------------------------------
+    Home Default CSS
+-----------------------------------------------------------------------
+*/
+
+.feature-area {
+  margin: 0 90px;
+  @media (max-width: 1800px) {
+    margin: 0 15px;
+  }
+  
+  .container-fluid {
+    padding: 0 158px;
+    @media (max-width: 1800px) {
+      padding: 0 15px;
+    }
+  }
+}
+
+.blog-area {
+  .container {
+    padding-bottom: 135px;
+  }
+}

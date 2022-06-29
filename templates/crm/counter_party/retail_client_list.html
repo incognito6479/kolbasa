@@ -1,0 +1,153 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block extra_css %}
+    <style>
+        .on_hover_tr:hover {
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Список розничных клиентов</h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'order_list' %}" method="GET">
+            {#            <input id="id_page_number" name="page" type="hidden"#}
+            {#                   {% if selected_page %}value="{{ selected_page }}"{% endif %}>#}
+            <div class="row w-100">
+                {#                <div class="col-12 col-md-6 col-lg-3">#}
+                {#                    <label>Дата с</label>#}
+                {#                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">#}
+                {#                </div>#}
+                {#                <div class="col-12 col-md-6 col-lg-3">#}
+                {#                    <label>Дата до</label>#}
+                {#                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">#}
+                {#                </div>#}
+                {#                <div class="col-12 col-md-6 col-lg-3">#}
+                {#                    <label for="">Статус</label>#}
+                {#                    <select class="form-control" name="status">#}
+                {#                        <option value {% if not status %}selected{% endif %}>---</option>#}
+                {#                        <option value="created" {% if status == 'created' %}selected{% endif %}>В обработке</option>#}
+                {#                        <option value="accepted" {% if status == 'accepted' %}selected{% endif %}>Принято</option>#}
+                {#                        <option value="delivered" {% if status == 'delivered' %}selected{% endif %}>Доставлено</option>#}
+                {#                        <option value="completed" {% if status == 'completed' %}selected{% endif %}>Завершен</option>#}
+                {#                        <option value="rejected" {% if status == 'rejected' %}selected{% endif %}>Отменен</option>#}
+                {#                    </select>#}
+                {#                </div>#}
+                <div class="col-12 d-flex justify-content-end">
+                    {#                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>#}
+                    <a href="{% url 'retail_client_create' %}" class="btn btn-outline-primary ml-2">
+                        Добавить розничного клиента
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Ф. И. О.</strong></th>
+                        <th><strong>Номер телефона</strong></th>
+                        <th><strong>Адрес клиента</strong></th>
+                        <th><strong>Комментарии о клиенте</strong></th>
+                        <th><strong>Баланс клиента</strong></th>
+                        <th><strong>Действие</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for client in clients %}
+                        {#                        <tr style="cursor: pointer" onclick="location.href='{% url "retail_client_detail" client.id %}'">#}
+                        <tr class="on_hover_tr" onclick="location.href=`{% url 'retail_client_report' client.id %}`">
+                            <td><strong>{{ client.id }}</strong></td>
+                            <td>{{ client.full_name|default:'-' }}</td>
+                            <td>{{ client.phone_number|default:'-' }}</td>
+                            <td>{{ client.address|default:'-' }}</td>
+                            <td>{{ client.content|default:'-' }}</td>
+                            <td>{{ client.balance|to_local }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <a href="{% url 'retail_client_update' client.id %}"
+                                       class="btn btn-primary shadow btn-xs sharp mr-1"><i
+                                            class="fa fa-pencil"></i></a>
+                                    {% if not client.retail_orders_count %}
+                                        <form method="POST" action="{% url 'retail_client_delete' client.id %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="DELETE">
+                                            <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i
+                                                    class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer d-flex">
+            <div class="mr-auto ml-auto">
+                <nav aria-label="Page navigation example">
+                    {% if is_paginated %}
+                        {% if page_obj.has_previous %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val(1); $('#sort-filter').submit()">First
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.previous_page_number }}); $('#sort-filter').submit()">
+                                Previous
+                            </button>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <button class="btn btn-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <button class="btn btn-outline-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.number|add:'1' }}); $('#sort-filter').submit()">
+                                Next
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.paginator.page_range|last }}); $('#sort-filter').submit()">
+                                Last
+                            </button>
+                        {% endif %}
+
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

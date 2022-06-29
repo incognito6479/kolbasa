@@ -1,0 +1,23 @@
+{% load static %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" type="text/css" href="{% static 'crm/css/admin.css' %}">
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Login Form -->
+    <form class="pt-5" method="POST" action="#">
+      {% csrf_token %}
+      <input type="text" class="fadeIn second" name="phone" placeholder="Телефон">
+      <input type="text" class="fadeIn third" name="password" placeholder="Пароль">
+      <input type="submit" class="fadeIn fourth" value="Войти">
+    </form>
+
+  </div>
+</div>
+
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -1,0 +1,179 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-auto p-md-0">
+            <div class="welcome-text">
+                <h4> Отчет по ползователу ({{ user_model.get_user_type_display }}
+                    | {{ user_model.fullname|default:user_model.username }})</h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <tr>
+                    <th>Создано</th>
+                    <td>{{ user_model.created|date:'d.m.Y' }}</td>
+                </tr>
+                <tr>
+                    <th>Регион</th>
+                    <td>{{ user_model.get_user_region_display }}</td>
+                </tr>
+                <tr>
+                    {% if user_model.user_type == 'agent' %}
+                        <th>Баланс</th>
+                        <td>{{ user_agent_instance.balance }}</td>
+                    {% elif user_model.user_type == 'deliver' %}
+                        <th>Баланс</th>
+                        <td>{{ user_deliver_instance.balance }}</td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'user_report' user_model.id %}" method="GET">
+            <div class="row w-100">
+                <div class="col-12 col-md-5">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-5">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-2 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <h4 class="mb-3">Добавить оплату</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <label for="id_payment_type">Тип оплаты</label>
+                        <select id="id_payment_type" name="payment_type" class="form-control" required>
+                            <option value="outcome" selected>Расход</option>
+                            <option value="income">Приход</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label for="id_payment_method">Метод оплаты</label>
+                        <select id="id_payment_method" name="payment_method" class="form-control" required>
+                            <option value="cash" selected>Наличные</option>
+                            <option value="bank">Перечисление</option>
+                            <option value="card">Картой</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label for="id_amount">Количество</label>
+                        <input id="id_amount" name="amount" type="number" min="0" class="form-control"
+                               required>
+                    </div>
+                    <div class="col-md-2 mt-3 ml-auto mb-5">
+                        <input type="hidden" name="action" value="add_payment">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <h5>Отчет по оплать на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} -
+                    {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Комментарии</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for payment in payments %}
+                        <tr>
+                            <td><strong>{{ forloop.counter }}</strong></td>
+                            <td>{{ payment.created|date:'d.m.Y H:i' }}</td>
+                            <td>{{ payment.outlay.title }}</td>
+                            <td>{{ payment.amount|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">Итог</td>
+                        <td>{{ payments_total.amount_total|default:0|to_local }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Отчет по заказам на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} -
+                    {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Заказ</strong></th>
+                        <th><strong>Сумма</strong></th>
+                        <th><strong>Доля от заказа</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for invoice in invoices %}
+                        <tr>
+                            <td><strong>{{ forloop.counter }}</strong></td>
+                            <td>{{ invoice.created|date:'d.m.Y' }}</td>
+                            <td>
+                                <a href="{% url 'order_detail' invoice.order.id %}">{{ invoice.order.counter_party }}</a>
+                            </td>
+                            <td>{{ invoice.total|to_local }}</td>
+                            {% if user_model.user_type == 'agent' %}
+                                <td>{{ invoice.total|default:0|percent:user_agent_instance.service_percent|to_local }}</td>
+                            {% elif user_model.user_type == 'deliver' %}
+                                <td>{{ invoice.total|default:0|percent:user_deliver_instance.service_percent|to_local }}</td>
+                            {% endif %}
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">Итог</td>
+                        <td>{{ invoices_total.amount_total|default:0|to_local }}</td>
+                        {% if user_model.user_type == 'agent' %}
+                            <td>{{ invoices_total.amount_total|default:0|percent:user_agent_instance.service_percent|to_local }}</td>
+                        {% elif user_model.user_type == 'deliver' %}
+                            <td>{{ invoices_total.amount_total|default:0|percent:user_deliver_instance.service_percent|to_local }}</td>
+                        {% endif %}
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

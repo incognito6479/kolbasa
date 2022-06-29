@@ -1,0 +1,172 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Список Пользователей</h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'user_list' %}" method="GET">
+            <input id="id_page_number" name="page" type="hidden"
+                   {% if selected_page %}value="{{ selected_page }}"{% endif %}>
+            <div class="row w-100">
+                <div class="col-12 col-md-4">
+                    <label for="">Тип ползователя</label>
+                    <select class="form-control" name="user_type">
+                        <option value {% if not status %}selected{% endif %}>---</option>
+                        <option value="agent" {% if status == 'agent' %}selected{% endif %}>Агент</option>
+                        <option value="deliver" {% if status == 'deliver' %}selected{% endif %}>Достовщик</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="">Регион</label>
+                    <select class="form-control" name="status">
+                        <option value {% if not status %}selected{% endif %}>---</option>
+                        <option value="bulungur" {% if status == 'bulungur' %}selected{% endif %}>Булунгур</option>
+                        <option value="ishtikhon" {% if status == 'ishtikhon' %}selected{% endif %}>Иштихон</option>
+                        <option value="jomboy" {% if status == 'jomboy' %}selected{% endif %}>Джомбой</option>
+                        <option value="paishanba" {% if status == 'paishanba' %}selected{% endif %}>Пайшанба</option>
+                        <option value="koshrabot" {% if status == 'koshrabot' %}selected{% endif %}>Кошработ</option>
+                        <option value="oqtosh" {% if status == 'oqtosh' %}selected{% endif %}>Октош</option>
+                        <option value="nurobod" {% if status == 'nurobod' %}selected{% endif %}>Нуробод</option>
+                        <option value="laish" {% if status == 'laish' %}selected{% endif %}>Лаиш</option>
+                        <option value="ziadin" {% if status == 'ziadin' %}selected{% endif %}>Зиадин</option>
+                        <option value="payariq" {% if status == 'payariq' %}selected{% endif %}>Паярик</option>
+                        <option value="juma" {% if status == 'juma' %}selected{% endif %}>Джума</option>
+                        <option value="gulabad" {% if status == 'gulabad' %}selected{% endif %}>Гулабад</option>
+                        <option value="tayloq" {% if status == 'tayloq' %}selected{% endif %}>Тойлок</option>
+                        <option value="urgut" {% if status == 'urgut' %}selected{% endif %}>Ургут</option>
+                        <option value="g_samarqand" {% if status == 'g_samarqand' %}selected{% endif %}>г. Самарканд
+                        </option>
+                        <option value="r_samarqand" {% if status == 'r_samarqand' %}selected{% endif %}>р. Самарканд
+                        </option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 mt-sm-3 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                    <a href="{% url 'user_create' %}" class="btn btn-outline-primary ml-2">
+                        Доб. Поль.
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Логин</strong></th>
+                        <th><strong>Тип ползователя</strong></th>
+                        <th><strong>Регион</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Процент услуги</strong></th>
+                        <th><strong>Баланс</strong></th>
+                        <th><strong></strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for user in users %}
+                        <tr>
+                            <td><strong>{{ user.id }}</strong></td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.user_type }}</td>
+                            <td>{{ user.user_region }}</td>
+                            <td>{{ user.is_active }}</td>
+                            {% if user.agent.all %}
+                                {% for agent in user.agent.all %}
+                                    {% if forloop.counter == 1 %}
+                                        <td>{{ agent.service_percent }}</td>
+                                        <td>{{ agent.balance }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                            {% elif user.deliver.all %}
+                                {% for deliver in user.deliver.all %}
+                                    {% if forloop.counter == 1 %}
+                                        <td>{{ deliver.service_percent }}</td>
+                                        <td>{{ deliver.balance }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <td> - </td>
+                                <td> - </td>
+                            {% endif %}
+                            <td>
+                                <div class="d-flex">
+                                    <a href="{% url 'user_report' user.id %}"
+                                       class="btn btn-primary shadow btn-xs sharp mr-1"><i
+                                            class="fa fa-file"></i></a>
+                                    <a href="{% url 'user_update' user.id %}"
+                                       class="btn btn-primary shadow btn-xs sharp mr-1"><i
+                                            class="fa fa-pencil"></i></a>
+                                    <a href="{% url 'user_password_update' user.id %}"
+                                       class="btn btn-primary shadow btn-xs sharp mr-1"><i
+                                            class="fa fa-asterisk"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer d-flex">
+            <div class="mr-auto ml-auto">
+                <nav aria-label="Page navigation example">
+                    {% if is_paginated %}
+                        {% if page_obj.has_previous %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val(1); $('#sort-filter').submit()">First
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.previous_page_number }}); $('#sort-filter').submit()">
+                                Previous
+                            </button>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <button class="btn btn-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <button class="btn btn-outline-primary mb-4"
+                                        onclick="$('#id_page_number').val({{ num }}); $('#sort-filter').submit()">{{ num }}</button>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.number|add:'1' }}); $('#sort-filter').submit()">
+                                Next
+                            </button>
+                            <button class="btn btn-outline-primary mb-4"
+                                    onclick="$('#id_page_number').val({{ page_obj.paginator.page_range|last }}); $('#sort-filter').submit()">
+                                Last
+                            </button>
+                        {% endif %}
+
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

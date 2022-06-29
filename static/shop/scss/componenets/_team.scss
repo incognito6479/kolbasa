@@ -1,0 +1,106 @@
+/*
+-----------------------------------------------------------------------
+	Team CSS
+-----------------------------------------------------------------------
+*/
+
+.team-area {
+	.container {
+		max-width: 1200px;
+		padding-bottom: 44px;
+	    @media #{$lg-device} {
+			padding-bottom: 32px;
+	    }
+	}
+}
+
+.team-item {
+	.inner-content {
+		margin-bottom: 30px;
+		.thumb {
+			background-color: $theme-color;
+			overflow: hidden;
+			position: relative;
+			img {
+				width: 100%;
+		        @include transition(all .4s ease-out);
+			}
+			.member-icons {
+				left: 0;
+				line-height: 1;
+				display: flex;
+				opacity: 0;
+			    justify-content: center;
+				position: absolute;
+				text-align: center;
+				top: 50%;
+				margin-top: 30px;
+				@include translate(0%, -50%);
+				right: 0;
+				z-index: 1;
+		        @include transition(all .4s ease-out);
+				a {
+					background-color: $white;
+					border-radius: 7px;
+					display: inline-block;
+					color: $theme-color;
+					font-size: 16px;
+					width: 36px;
+					height: 36px;
+					margin-right: 5px;
+					line-height: 40px;
+					text-align: center;
+			        @include transition(all .4s ease-out);
+			        &:last-child {
+			        	margin-right: 0;
+			        }
+			        &:hover {
+			        	background-color: $theme-color;
+			        	color: $white;
+			        }
+				}
+			}
+		}
+		.content {
+			margin-top: 27px;
+			text-align: center;
+			@media #{$lg-device} {
+				margin-top: 17px;
+			}
+			.title {
+				font-size: 24px;
+				margin-bottom: 5px;
+				@media #{$lg-device} {
+					font-size: 18px;
+					margin-bottom: 3px;
+				}
+				a {
+					color: #0f0f0f;
+					&:hover {
+						color: $theme-color;
+					}
+				}
+			}
+			p {
+				font-size: 14px;
+				letter-spacing: 0.6px;
+				text-transform: uppercase;
+				@media #{$lg-device} {
+					font-size: 13px;
+				}
+			}
+		}
+		&:hover {
+			.thumb {
+				img {
+					opacity: .56;
+					@include scale(1.2);
+				}
+				.member-icons {
+					opacity: 1;
+					margin-top: 0;
+				}
+			}
+		}
+	}
+}

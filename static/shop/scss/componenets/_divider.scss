@@ -1,0 +1,187 @@
+/*
+-----------------------------------------------------------------------
+    Divider CSS
+-----------------------------------------------------------------------
+*/
+
+.divider-product-discount-area {
+  &:hover {
+    .divider-content {
+      & > * {
+        &:not(a) {
+          text-shadow: 0 1px $black-555,
+          0 1.5px $black-555,
+          0 2px $black-555,
+          0 2.5px $black-555,
+          0 3px $black-555,
+          0 3.5px $black-555,
+          0 4px $black-555,
+          0 4.5px $black-555;
+          @include translate(0px, -8px);
+        }
+      }
+
+      a {
+        box-shadow: 0 1px $black-555,
+        0 1.5px $black-555,
+        0 2px $black-555,
+        0 2.5px $black-555,
+        0 3px $black-555,
+        0 3.5px $black-555,
+        0 4px $black-555,
+        0 4.5px $black-555;
+        @include translate(0px, -8px);
+      }
+    }
+  }
+}
+
+.divider {
+  &-style-wrap {
+    .divider-content {
+      .title {
+        margin-bottom: 37px;
+      }
+
+      .title2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        position: relative;
+
+        &.collapsed {
+          &:before {
+            content:"";
+            font-family:"Ionicons";
+            font-size: 17px;
+            height: 22px;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            width: 22px;
+          }
+        }
+
+        &:not(.collapsed) {
+          &:before {
+            content:"";
+            font-family:"Ionicons";
+            font-size: 17px;
+            height: 22px;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            width: 22px;
+          }
+        }
+      }
+
+      .social-icons {
+        a {
+          background-color: $white;
+          border-radius: 50%;
+          color: $black-0f;
+          display: inline-block;
+          font-size: 32px;
+          height: 42px;
+          line-height: 42px;
+          margin-right: 26px;
+          position: relative;
+          text-align: center;
+          width: 42px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+          &:hover {
+            background-color: $theme-color;
+            color: $white;
+          }
+        }
+      }
+
+      p {
+        color: #615d5d;
+        font-size: 13px;
+        line-height: 24px;
+        margin: auto;
+        margin-top: 36px;
+        max-width: 420px;
+      }
+
+      .collapse {
+        @media #{$md-up-device} {
+          display: inherit;
+        }
+      }
+    }
+  }
+
+  &-style2-wrap {
+    padding-top: 12px;
+    padding-bottom: 8px;
+    
+    .divider-content {
+      & > * {
+        &:not(a) {
+          @include transition(all .3s ease-out);
+        }
+      }
+
+      .sub-title {
+        color: $white;
+        font-size: 20px;
+        font-weight: $font-weight-medium;
+        line-height: 1;
+        margin-bottom: 14px;
+        text-transform: uppercase;
+      }
+
+      .title {
+        color: $white;
+        font-size: 90px;
+        line-height: 1;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        @media #{$lg-device} {
+          font-size: 70px;
+        }
+        @media #{$xs-device} {
+          font-size: 60px;
+          margin-bottom: 8px;
+        }
+      }
+
+      p {
+        color: $white;
+        font-size: 20px;
+        font-weight: $font-weight-medium;
+        line-height: 24px;
+        margin-bottom: 33px;
+      }
+
+      a {
+        @include transition(all .3s ease-out);
+      }
+    }
+  }
+}
+
+.shape-group {
+  @media (max-width: 1599px) {
+    display: none;
+  }
+  .shape-img1 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+  }
+  .shape-img2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+  }
+}

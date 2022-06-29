@@ -1,0 +1,224 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-auto p-md-0">
+            <div class="welcome-text">
+                <h4>Отчет по продукту ({{ warehouse_product.product.category }}
+                    | {{ warehouse_product.product.title }}| {{ warehouse_product.warehouse }}) </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'product_detail_report' warehouse_product.id %}"
+              method="GET">
+            <div class="row w-100">
+                <div class="col-12 col-md-5">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-5">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-2 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Отчет по продукту (Приход) на {% if not start_date and not end_date %}Сегодня
+                    {% else %}{{ start_date }} -
+                    {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Поставщик</strong></th>
+                        <th><strong>Кол.</strong></th>
+                        <th><strong>Цена</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for income_item in warehouse_product_income_items %}
+                        <tr>
+                            <td><strong>{{ forloop.counter }}</strong></td>
+                            <td>{{ income_item.income.created|date:'d.m.Y' }}</td>
+                            <td><a href="{% url 'income_detail' income_item.income.id %}">{{ income_item.income.provider }}</a></td>
+                            <td>{{ income_item.count|default:0|to_local }}</td>
+                            <td>{{ income_item.price|default:0|to_local }}</td>
+                            <td>{{ income_item.count|mul:income_item.price|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">Итог</td>
+                        <td>{{ warehouse_product_income_items_total.amount_count|default:0|to_local }}</td>
+                        <td></td>
+                        <td>{{ warehouse_product_income_items_total.amount_total|default:0|to_local }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Отчет по продукту (Возврат) на {% if not start_date and not end_date %}Сегодня
+                    {% else %}{{ start_date }} -
+                    {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Контрагент</strong></th>
+                        <th><strong>Дост.</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Кол.</strong></th>
+                        <th><strong>Кол. воз.</strong></th>
+                        <th><strong>Цена</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for return_item in warehouse_product_return_items %}
+                        <tr>
+                            <td><strong>{{ forloop.counter }}</strong></td>
+                            <td>{{ return_item.created|date:'d.m.Y' }}</td>
+                            <td>{{ return_item.counter_party }}</td>
+                            <td>{{ return_item.deliver.user.fullname|default:return_item.deliver.user.username }}</td>
+                            <td>{{ return_item.get_status_display }}</td>
+                            <td>{{ return_item.count|default:0|to_local }}</td>
+                            <td>{{ return_item.returned_count|default:0|to_local }}</td>
+                            <td>{{ return_item.price|default:0|to_local }}</td>
+                            <td>{{ return_item.total|default:0|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="9" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="5">Итог</td>
+                        <td>{{ warehouse_product_return_items_total.amount_count|default:0|to_local }}</td>
+                        <td>{{ warehouse_product_return_items_total.amount_returned_count|default:0|to_local }}</td>
+                        <td></td>
+                        <td>{{ warehouse_product_return_items_total.amount_total|default:0|to_local }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Отчет по продукту (Заказ) на {% if not start_date and not end_date %}Сегодня
+                    {% else %}{{ start_date }} -
+                    {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Заказ</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Кол.</strong></th>
+                        <th><strong>Цена</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for invoice_item in warehouse_product_invoice_items %}
+                        <tr>
+                            <td><strong>{{ forloop.counter }}</strong></td>
+                            <td>{{ invoice_item.invoice.created|date:'d.m.Y' }}</td>
+                            <td><a href="{% url 'order_detail' invoice_item.invoice.order.id %}">{{ invoice_item.invoice.order.counter_party }}</a></td>
+                            <td>{{ invoice_item.invoice.get_status_display }}</td>
+                            <td>{{ invoice_item.count|default:0|to_local }}</td>
+                            <td>{{ invoice_item.order_item.price|default:0|to_local }}</td>
+                            <td>{{ invoice_item.total|default:0|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4">Итог</td>
+                        <td>{{ warehouse_product_invoice_items_total.amount_count|default:0|to_local }}</td>
+                        <td></td>
+                        <td>{{ warehouse_product_invoice_items_total.amount_total|default:0|to_local }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Отчет по продукту (Заказ в розначное) на {% if not start_date and not end_date %}Сегодня
+                    {% else %}{{ start_date }} -
+                    {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Заказ</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Кол.</strong></th>
+                        <th><strong>Цена</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for retail_item in warehouse_product_retail_items %}
+                        <tr>
+                            <td><strong>{{ forloop.counter }}</strong></td>
+                            <td>{{ retail_item.order.created|date:'d.m.Y' }}</td>
+                            <td><a href="{% url 'retail_order_detail' retail_item.order.id %}">{{ retail_item.order.client }}</a></td>
+                            <td>{{ retail_item.order.get_status_display }}</td>
+                            <td>{{ retail_item.count|default:0|to_local }}</td>
+                            <td>{{ retail_item.price|default:0|to_local }}</td>
+                            <td>{{ retail_item.total|default:0|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4">Итог</td>
+                        <td>{{ warehouse_product_retail_items_total.amount_count|default:0|to_local }}</td>
+                        <td></td>
+                        <td>{{ warehouse_product_retail_items_total.amount_total|default:0|to_local }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

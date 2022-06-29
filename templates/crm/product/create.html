@@ -1,0 +1,54 @@
+{% extends 'crm/base.html' %}
+{% load static widget_tweaks custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Товары</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Добавить новый товар</h4>
+                </div>
+                <div class="card-body">
+                    {% include 'crm/layouts/item_create.html' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <form method="get" class="card">
+                <div class="card-header row">
+                    <h4 class="card-title col-auto">Товары</h4>
+                    <div class="col-auto d-flex">
+                        <div class="col-auto d-flex align-items-center">
+                            <label class="m-0" for="id_search">Наименование:</label>
+                            <input id="id_search" class="form-control" type="text" name="search" value="{{ selected_search }}">
+                        </div>
+                        <div class="col-auto">
+                            <label for="id_category">Категория:</label>
+                            <select class="m-0" name="category" id="id_category">
+                                <option value {% if not selected_category %}selected{% endif %}>Все</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}" {% if selected_category|floatformat == category.id|floatformat %}selected{% endif %}>{{ category }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {% include 'crm/layouts/item_list_table.html' with update_action="product_update" delete_action="product_delete" %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

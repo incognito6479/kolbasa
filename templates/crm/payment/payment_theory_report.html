@@ -1,0 +1,202 @@
+{% extends 'crm/base.html' %}
+{% load widget_tweaks %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col-md-6 p-md-0">
+            <div class="welcome-text">
+                <h4> Отчет по прибыли (Теоретическая)</h4>
+            </div>
+        </div>
+        <div class="col-md-6 text-right p-md-0">
+            <div class="welcome-text">
+                <h4>
+                    <form action="{% url 'payment_theory_income_excel' %}" method="get">
+                        <input type="hidden" name="start_date" value="{{ start_date }}">
+                        <input type="hidden" name="end_date" value="{{ end_date }}">
+                    <button type="submit" class="btn btn-sm btn-info">
+                        Сохранить как Excel
+                    </button>
+                    </form>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <form id="sort-filter" class="card-header" action="{% url 'payment_theory_income' %}" method="GET">
+            <div class="row w-100">
+                <div class="col-12 col-md-5">
+                    <label>Дата с</label>
+                    <input value="{{ start_date }}" class="form-control" type="date" name="start_date">
+                </div>
+                <div class="col-12 col-md-5">
+                    <label>Дата до</label>
+                    <input value="{{ end_date }}" class="form-control" type="date" name="end_date">
+                </div>
+                <div class="col-12 col-md-2 mt-md-auto d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Доход(От розничной торговли) на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} - {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>Заказ №</strong></th>
+                        <th><strong>Дата создание</strong></th>
+                        <th><strong>Клиент</strong></th>
+                        <th><strong>Принял</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for retail_order in retail_orders %}
+                        <tr>
+                            <td><strong>{{ retail_order.id }}</strong></td>
+                            <td>{{ retail_order.created|date:'d.m.Y H:i' }}</td>
+                            <td>{{ retail_order.client }}</td>
+                            <td>{{ retail_order.user.fullname|default:retail_order.user.username }}</td>
+                            <td>{{ retail_order.get_status_display }}</td>
+                            <td>{{ retail_order.total|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Доход(От торговли) на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} - {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>#</strong></th>
+                        <th><strong>Дата</strong></th>
+                        <th><strong>Заказ</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Сумма</strong></th>
+                        <th><strong>Себес.</strong></th>
+                        <th><strong>Проц. Достав.</strong></th>
+                        <th><strong>Проц. Агента.</strong></th>
+                        <th><strong>Прибыль</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for order in orders %}
+                        <tr>
+                            <td><strong>{{ order.id }}</strong></td>
+                            <td>{{ order.created|date:'d.m.Y H:i' }}</td>
+                            <td><a href="{% url 'order_detail' order.id %}">{{ order.counter_party }}</a></td>
+                            <td>{{ order.get_status_display }}</td>
+                            <td>{% for invoice in order.invoice_set.all %}{{ invoice.total|default:0|to_local }} сум{% endfor %}</td>
+                            <td>{{ order.self_price|default:0|to_local }} сум</td>
+                            <td>{{ order.deliver_percent|default:0|to_local }} сум</td>
+                            <td>{{ order.agent_percent|default:0|to_local }} сум</td>
+                            <td>{{ order.profit_amount|default:0|to_local }} сум</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Расход(На покупку товаров) на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} - {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>Приход №</strong></th>
+                        <th><strong>Дата создание</strong></th>
+                        <th><strong>Принял</strong></th>
+                        <th><strong>Поставщик</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for income in incomes %}
+                        <tr>
+                            <td><strong>{{ income.id }}</strong></td>
+                            <td>{{ income.created|date:'d.m.Y H:i' }}</td>
+                            <td>{{ income.user.username }} | {{ income.user.get_user_type_display }}</td>
+                            <td>{{ income.provider }}</td>
+                            <td>{{ income.get_status_display }}</td>
+                            <td>{{ income.total|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h5>Расход(На возврат товаров) на {% if not start_date and not end_date %}Сегодня{% else %}{{ start_date }} - {{ end_date }}{% endif %}</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><strong>Приход №</strong></th>
+                        <th><strong>Дата создание</strong></th>
+                        <th><strong>Принял</strong></th>
+                        <th><strong>Клиент</strong></th>
+                        <th><strong>Статус</strong></th>
+                        <th><strong>Сумма</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for return_item in return_items %}
+                        <tr>
+                            <td><strong>{{ return_item.id }}</strong></td>
+                            <td>{{ return_item.created|date:'d.m.Y H:i' }}</td>
+                            <td>{{ return_item.deliver.user.username }} | {{ income.deliver.user.get_user_type_display }}</td>
+                            <td>{{ return_item.counter_party }}</td>
+                            <td>{{ return_item.get_status_display }}</td>
+                            <td>{{ return_item.total|to_local }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">Пусто</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-6 col-lg-2"><strong>Общий Доход:</strong></div>
+            <div class="col-6 col-lg-2">{{ retail_orders_total.total|plus:orders_total.total|default:0|to_local }} сум</div>
+            <div class="col-6 col-lg-2"><strong>Общий Расход:</strong></div>
+            <div class="col-6 col-lg-2">{{ incomes_total.total|plus:return_items_total.total|default:0|to_local }} сум</div>
+            <div class="col-6 col-lg-2"><strong>Общий Прибыл:</strong></div>
+            <div class="col-6 col-lg-2">{{ retail_orders_total.total|plus:orders_total.total|minus:incomes_total.total|minus:return_items_total.total|default:0|to_local }} сум</div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        {% if request.GET.error %}
+            alert("PROTECTED ERROR MESSAGE");
+        {% endif %}
+    </script>
+{% endblock extra_js %}

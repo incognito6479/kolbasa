@@ -1,0 +1,151 @@
+/*
+-----------------------------------------------------------------------
+  Counter CSS
+-----------------------------------------------------------------------
+*/
+
+.ht-countdown {
+  &-style1 {
+    display: inline-block;
+    @media #{$sm-device} {
+      display: block;
+    }
+
+    .countdown-item {
+      background-color: $theme-color;
+      display: inline-block;
+      text-align: center;
+      position: relative;
+      width: 54px;
+      border-radius: 3px;
+      padding: 8px 0;
+      margin: 0 7px;
+      @media #{$sm-device} {
+        border: 4px solid $white;
+        margin: 0;
+        width: 50%;
+      }
+
+      &__time {
+        color: $white;
+        font-size: 24px;
+        font-weight: $font-weight-bold;
+        display: block;
+        margin-bottom: 5px;
+        line-height: 1;
+        position: relative;
+        @media #{$sm-device} {
+          font-size: 16px;
+        }
+      }
+
+      &__label {
+        color: $white;
+        display: block;
+        font-size: 12px;
+        line-height: 1;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+        @media #{$sm-device} {
+          font-size: 10px;
+        }
+      }
+
+      &:after {
+        content: ":";
+        color: $theme-color;
+        font-size: 22px;
+        font-weight: $font-weight-bold;
+        display: inline-block;
+        position: absolute;
+        right: -10px;
+        top: 50%;
+        vertical-align: middle;
+        @include translate(0px, -50%);
+        @media #{$sm-device} {
+          display: none;
+        }
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &-style2 {
+    display: inline-block;
+
+    .countdown-item {
+      background-color: transparent;
+      border: 2px solid $white;
+      border-radius: 4px;
+      display: inline-block;
+      text-align: center;
+      position: relative;
+      width: 70px;
+      padding: 12px 0;
+      margin: 0 7px;
+      @media #{$xxs-device} {
+        margin: 1px;
+      }
+
+      &__time {
+        color: $white;
+        font-size: 24px;
+        font-weight: $font-weight-bold;
+        display: block;
+        margin-bottom: 6px;
+        line-height: 1;
+        position: relative;
+        @media #{$xxs-device} {
+          font-size: 20px;
+          margin-bottom: 4px;
+        }
+      }
+
+      &__label {
+        color: $white;
+        display: block;
+        font-size: 12px;
+        line-height: 1;
+        letter-spacing: .5px;
+        text-transform: uppercase
+      }
+
+      &:after {
+        content: ":";
+        color: $white;
+        font-size: 22px;
+        font-weight: $font-weight-bold;
+        display: inline-block;
+        position: absolute;
+        right: -13px;
+        top: 50%;
+        vertical-align: middle;
+        @include translate(0px, -50%);
+        @media #{$xxs-device} {
+          display: none;
+        }
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+}
